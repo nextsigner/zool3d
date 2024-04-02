@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick3D 1.14
+import ZM3D 1.0
 
 ApplicationWindow {
     id: app
@@ -104,7 +105,8 @@ ApplicationWindow {
 
         }
     }
-    MaterialControl{id:materialCtrl}
+
+
     View3D {
         id: view
         anchors.fill: parent
@@ -114,9 +116,9 @@ ApplicationWindow {
             clearColor: "#848895"
 
             backgroundMode: SceneEnvironment.Color
-//            lightProbe: Texture {
-//                source: "maps/OpenfootageNET_garage-1024.hdr"
-//            }
+            //            lightProbe: Texture {
+            //                source: "maps/OpenfootageNET_garage-1024.hdr"
+            //            }
         }
 
 
@@ -136,18 +138,19 @@ ApplicationWindow {
         }
 
 
-//        PointLight {
-//            x: 0
-//            y: 0
-//            z: 0
-//            quadraticFade: 0
-//            brightness: 10.5
-//            //visible: false
-//        }
+        //        PointLight {
+        //            x: 0
+        //            y: 0
+        //            z: 0
+        //            quadraticFade: 0
+        //            brightness: 10.5
+        //            //visible: false
+        //        }
 
+        ZM3D{id: zm}
         PerspectiveCamera {
             id: camera
-            position: Qt.vector3d(0, 0, -600*3)
+            position: Qt.vector3d(0, 0, (0-zm.d)*2)
             //rotation.y: 30 //Con eje y rota/gira hacia los costados.
         }
 
@@ -168,7 +171,7 @@ ApplicationWindow {
                 diffuseColor: "#000"
                 specularAmount: 0.1
                 specularRoughness: 0.1
-                roughnessMap: Texture { source: "maps/roughness.jpg" }
+                //roughnessMap: Texture { source: "maps/roughness.jpg" }
             }
 
         }
@@ -187,7 +190,7 @@ ApplicationWindow {
                 diffuseColor: cubeModel.isPicked ? "red" : "blue"
                 specularAmount: 0.4
                 specularRoughness: 0.4
-                roughnessMap: Texture { source: "maps/roughness.jpg" }
+                //roughnessMap: Texture { source: "maps/roughness.jpg" }
             }
 
             SequentialAnimation on rotation {
@@ -201,56 +204,149 @@ ApplicationWindow {
             }
         }
 
-        Rueda{}
+        //Rueda{}
+
     }
 
     MouseArea {
         anchors.fill: view
 
-        onClicked: (mouse) => {
-                       // Get screen coordinates of the click
-                       pickPosition.text = "(" + mouse.x + ", " + mouse.y + ")"
-                       var result = view.pick(mouse.x, mouse.y);
-                       if (result.objectHit) {
-                           var pickedObject = result.objectHit;
-                           // Toggle the isPicked property for the model
-                           pickedObject.isPicked = !pickedObject.isPicked;
-                           // Get picked model name
-                           pickName.text = pickedObject.objectName;
-                           // Get other pick specifics
-                           uvPosition.text = "("
-                           + result.uvPosition.x.toFixed(2) + ", "
-                           + result.uvPosition.y.toFixed(2) + ")";
-                           distance.text = result.distance.toFixed(2);
-                           scenePosition.text = "("
-                           + result.scenePosition.x.toFixed(2) + ", "
-                           + result.scenePosition.y.toFixed(2) + ", "
-                           + result.scenePosition.z.toFixed(2) + ")";
-                           localPosition.text = "("
-                           + result.position.x.toFixed(2) + ", "
-                           + result.position.y.toFixed(2) + ", "
-                           + result.position.z.toFixed(2) + ")";
-                           worldNormal.text = "("
-                           + result.sceneNormal.x.toFixed(2) + ", "
-                           + result.sceneNormal.y.toFixed(2) + ", "
-                           + result.sceneNormal.z.toFixed(2) + ")";
-                           localNormal.text = "("
-                           + result.normal.x.toFixed(2) + ", "
-                           + result.normal.y.toFixed(2) + ", "
-                           + result.normal.z.toFixed(2) + ")";
-                       } else {
-                           pickName.text = "None";
-                           uvPosition.text = "";
-                           distance.text = "";
-                           scenePosition.text = "";
-                           localPosition.text = "";
-                           worldNormal.text = "";
-                           localNormal.text = "";
-                       }
-                   }
+        //onClicked: (mouse) => {
+        onClicked: {
+            // Get screen coordinates of the click
+            pickPosition.text = "(" + mouse.x + ", " + mouse.y + ")"
+            var result = view.pick(mouse.x, mouse.y);
+            if (result.objectHit) {
+                var pickedObject = result.objectHit;
+                // Toggle the isPicked property for the model
+                pickedObject.isPicked = !pickedObject.isPicked;
+                // Get picked model name
+                pickName.text = pickedObject.objectName;
+                // Get other pick specifics
+                uvPosition.text = "("
+                        + result.uvPosition.x.toFixed(2) + ", "
+                        + result.uvPosition.y.toFixed(2) + ")";
+                distance.text = result.distance.toFixed(2);
+                scenePosition.text = "("
+                        + result.scenePosition.x.toFixed(2) + ", "
+                        + result.scenePosition.y.toFixed(2) + ", "
+                        + result.scenePosition.z.toFixed(2) + ")";
+                localPosition.text = "("
+                        + result.position.x.toFixed(2) + ", "
+                        + result.position.y.toFixed(2) + ", "
+                        + result.position.z.toFixed(2) + ")";
+                worldNormal.text = "("
+                        + result.sceneNormal.x.toFixed(2) + ", "
+                        + result.sceneNormal.y.toFixed(2) + ", "
+                        + result.sceneNormal.z.toFixed(2) + ")";
+                localNormal.text = "("
+                        + result.normal.x.toFixed(2) + ", "
+                        + result.normal.y.toFixed(2) + ", "
+                        + result.normal.z.toFixed(2) + ")";
+            } else {
+                pickName.text = "None";
+                uvPosition.text = "";
+                distance.text = "";
+                scenePosition.text = "";
+                localPosition.text = "";
+                worldNormal.text = "";
+                localNormal.text = "";
+            }
+        }
+        onDoubleClicked: {
+            camera.position=Qt.vector3d(0, 0, (0-zm.d)*2)
+            camera.rotation=Qt.vector3d(0, 0, 0)
+        }
+        onWheel: {
+            let cz=camera.position.z
+            if (wheel.modifiers & Qt.ControlModifier) {
+                if(wheel.angleDelta.y>=0){
+                    cz+=40
+                }else{
+                    cz-=40
+                }
+            }else if (wheel.modifiers & Qt.ShiftModifier){
+
+            }else{
+                if(wheel.angleDelta.y>=0){
+                    //                    if(reSizeAppsFs.fs<app.fs*2){
+                    //                        reSizeAppsFs.fs+=reSizeAppsFs.fs*0.1
+                    //                    }else{
+                    //                        reSizeAppsFs.fs=app.fs
+                    //                    }
+                    pointerPlanet.pointerRot+=45
+                }else{
+                    //                    if(reSizeAppsFs.fs>app.fs){
+                    //                        reSizeAppsFs.fs-=reSizeAppsFs.fs*0.1
+                    //                    }else{
+                    //                        reSizeAppsFs.fs=app.fs*2
+                    //                    }
+                    //pointerPlanet.pointerRot-=45
+                }
+            }
+            //reSizeAppsFs.restart()
+            camera.position.z=cz
+        }
     }
+    //MaterialControl{id:materialCtrl}
     Shortcut{
         sequence: 'Esc'
         onActivated: Qt.quit()
+    }
+    Shortcut{
+        sequence: 'Left'
+        onActivated: {
+            if(camera.position.x>-2000){
+                let cr=camera.rotation.y
+                cr+=5
+                camera.rotation.y=cr
+
+                let cp=camera.position.x
+                cp-=200
+                camera.position.x=cp
+            }
+        }
+    }
+    Shortcut{
+        sequence: 'Right'
+        onActivated: {
+            if(camera.position.x<2000){
+                let cr=camera.rotation.y
+                cr-=5
+                camera.rotation.y=cr
+
+                let cp=camera.position.x
+                cp+=200
+                camera.position.x=cp
+            }
+        }
+    }
+    Shortcut{
+        sequence: 'Up'
+        onActivated: {
+            if(camera.position.y<2000){
+                let cr=camera.rotation.x
+                cr+=5
+                camera.rotation.x=cr
+
+                let cp=camera.position.y
+                cp+=200
+                camera.position.y=cp
+            }
+        }
+    }
+    Shortcut{
+        sequence: 'Down'
+        onActivated: {
+            if(camera.position.y>-2000){
+                let cr=camera.rotation.x
+                cr-=5
+                camera.rotation.x=cr
+
+                let cp=camera.position.y
+                cp-=200
+                camera.position.y=cp
+            }
+        }
     }
 }

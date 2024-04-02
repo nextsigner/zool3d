@@ -14,9 +14,9 @@ Model {
             specularAmount: materialCtrl.specular
             indexOfRefraction: materialCtrl.ior
             opacity: materialCtrl.opacityValue
-            baseColorMap: Texture { source: "quemaps/metallic/basecolor.jpg" }
+            baseColorMap: Texture { source: "maps/metallic/basecolor.jpg" }
             metalnessMap: Texture { source: "maps/metallic/metallic.jpg" }
-            roughnessMap: Texture { source: "maps/metallic/roughness.jpg" }
+            //roughnessMap: Texture { source: "maps/metallic/roughness.jpg" }
             normalMap: Texture { source: "maps/metallic/normal.jpg" }
         }
     ]
@@ -46,9 +46,9 @@ Model {
                     specularAmount: materialCtrl.specular
                     indexOfRefraction: materialCtrl.ior
                     opacity: materialCtrl.opacityValue
-                    baseColorMap: Texture { source: "quemaps/metallic/basecolor.jpg" }
+                    baseColorMap: Texture { source: "maps/metallic/basecolor.jpg" }
                     metalnessMap: Texture { source: "maps/metallic/metallic.jpg" }
-                    roughnessMap: Texture { source: "maps/metallic/roughness.jpg" }
+                    //roughnessMap: Texture { source: "maps/metallic/roughness.jpg" }
                     normalMap: Texture { source: "maps/metallic/normal.jpg" }
                 }
             ]
@@ -74,9 +74,9 @@ Model {
 //                        specularAmount: materialCtrl.specular
 //                        indexOfRefraction: materialCtrl.ior
 //                        opacity: materialCtrl.opacityValue
-//                        baseColorMap: Texture { source: "quemaps/metallic/basecolor.jpg" }
+//                        baseColorMap: Texture { source: "maps/metallic/basecolor.jpg" }
 //                        metalnessMap: Texture { source: "maps/metallic/metallic.jpg" }
-//                        roughnessMap: Texture { source: "maps/metallic/roughness.jpg" }
+//                        //roughnessMap: Texture { source: "maps/metallic/roughness.jpg" }
 //                        normalMap: Texture { source: "maps/metallic/normal.jpg" }
 //                    }
 
@@ -85,7 +85,7 @@ Model {
                     diffuseColor: m1.isPicked ? "red" : "yellow"
                     specularAmount: 0.4
                     specularRoughness: 0.4
-                    roughnessMap: Texture { source: "maps/roughness.jpg" }
+                    //roughnessMap: Texture { source: "maps/roughness.jpg" }
                     Component.onCompleted: {
                         if(deg>=0 && deg<=29){
                             diffuseColor=r.colors[0]
