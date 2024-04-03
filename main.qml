@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick3D 1.14
 import ZM3D 1.0
+import Luces 1.0
 
 ApplicationWindow {
     id: app
@@ -122,21 +123,7 @@ ApplicationWindow {
         }
 
 
-        DirectionalLight {
-            position.x: 0
-            position.y: 300
-            position.z: 300
-            rotation: Qt.vector3d(0, 30, 0)
-            brightness: 100
-        }
-        DirectionalLight {
-            position.x: 0
-            position.y: -300
-            position.z: 300
-            rotation: Qt.vector3d(0, -30, 0)
-            brightness: 100
-        }
-
+        Luces{id: luces}
 
         //        PointLight {
         //            x: 0
@@ -289,6 +276,37 @@ ApplicationWindow {
         }
     }
     //MaterialControl{id:materialCtrl}
+
+    //    Rectangle{
+    //        anchors.fill: parent
+    //        color: 'red'
+    //        Repeater{
+    //            model: 12
+    //            Rectangle{
+    //                id: rect
+    //                width: 1000
+    //                height: 1000
+    //                color: 'transparent'
+    //                Text{
+    //                    text: '<b>'+parseInt(index + 1)+'</b>'
+    //                    font.pixelSize: parent.width*0.6
+    //                    color: 'white'
+    //                    anchors.centerIn: parent
+    //                }
+    //                Timer{
+    //                    running: true
+    //                    repeat: false
+    //                    interval: 3000
+    //                    onTriggered: {
+    //                        rect.grabToImage(function(result) {
+    //                            result.saveToFile("/home/ns/nsp/zool3d/modules/ZM3D/ZM3DHousesCircle/ZM3DHouse/imgs/h_"+parseInt(index + 1)+".png")
+    //                        });
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+
     Shortcut{
         sequence: 'Esc'
         onActivated: Qt.quit()
