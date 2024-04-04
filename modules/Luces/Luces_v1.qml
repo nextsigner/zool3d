@@ -4,7 +4,8 @@ import QtQuick3D 1.14
 Node{
     id: r
     property alias l: l4
-
+    property int intensidadDeLasLuces: 50
+    property bool verPosicionDeCamara: false
     //Luz desde el centro hacia arriba
     DirectionalLight {
         id:l1
@@ -12,10 +13,8 @@ Node{
         position.y: 0
         position.z: -1000
         rotation: Qt.vector3d(-50, 0, 0)
-        brightness: 100
-        visible: false
+        brightness: r.intensidadDeLasLuces
     }
-
     //Luz desde el centro hacia abajo
     DirectionalLight {
         id:l2
@@ -23,7 +22,7 @@ Node{
         position.y: 0
         position.z: -1000
         rotation: Qt.vector3d(50, 0, 0)
-        brightness: 100
+        brightness: r.intensidadDeLasLuces
     }
     //Luz desde el centro hacia la derecha
     DirectionalLight {
@@ -32,7 +31,7 @@ Node{
         position.y: 0
         position.z: -1000
         rotation: Qt.vector3d(0, 50, 0)
-        brightness: 100
+        brightness: r.intensidadDeLasLuces
     }
     //Luz desde el centro hacia la izquierda
     DirectionalLight {
@@ -41,11 +40,12 @@ Node{
         position.y: 0
         position.z: -1000
         rotation: Qt.vector3d(0, -50, 0)
-        brightness: 100
+        brightness: r.intensidadDeLasLuces
     }
     Node{
         position: l.position
         rotation: l.rotation
+        visible: r.verPosicionDeCamara
         Model {
             id: esferaFoco
             source: "#Sphere"

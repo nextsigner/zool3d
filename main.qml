@@ -9,7 +9,7 @@ ApplicationWindow {
     visible: true
     width: 800
     height: 500
-    title: qsTr("Picking Example")
+    title: 'Zool 3D'
     color: "#848895"
     visibility: 'Maximized'
     property color c: 'black'
@@ -140,6 +140,26 @@ ApplicationWindow {
             position: Qt.vector3d(0, 0, (0-zm.d)*2)
             //rotation.y: 30 //Con eje y rota/gira hacia los costados.
         }
+        //CustomCamera{
+        OrthographicCamera{
+            id: camera2
+            position: Qt.vector3d(0, 0, -1000)
+            //position: Qt.vector3d(0, 0, (0-zm.d)*4)
+            clipNear: 0.1 //Distancia mínima
+            clipFar: 1000.0 //Distancia máxima
+
+            //rotation.y: 30 //Con eje y rota/gira hacia los costados.
+        }
+        //        CustomCamera {
+        //            id: camera3
+        //            projectionType: CameraLens.PerspectiveProjection
+        //            fieldOfView: 45
+        //            aspectRatio: 16/9
+        //            nearPlane : 0.1
+        //            farPlane : 1000.0
+        //            position: Qt.vector3d(0, 0, -10)
+        //            viewCenter: Qt.vector3d(0, 0, 0)
+        //        }
 
         Model {
             id: bg
@@ -163,23 +183,19 @@ ApplicationWindow {
 
         }
         Model {
-            id: cubeModel
-            objectName: "Cube"
-            source: "#Cube"
+            id: centro
+            source: "#Sphere"
             pickable: true
             property bool isPicked: false
 
-            scale.x: 1.5
-            scale.y: 2
-            scale.z: 1.5
-
+            scale.x: 1.0
+            scale.y: 1.0
+            scale.z: 1.0
             materials: DefaultMaterial {
-                diffuseColor: cubeModel.isPicked ? "red" : "blue"
+                diffuseColor: centro.isPicked ? "red" : "#00FF00"
                 specularAmount: 0.4
                 specularRoughness: 0.4
-                //roughnessMap: Texture { source: "maps/roughness.jpg" }
             }
-
             SequentialAnimation on rotation {
                 running: !cubeModel.isPicked
                 loops: Animation.Infinite
@@ -364,6 +380,28 @@ ApplicationWindow {
                 let cp=camera.position.y
                 cp-=200
                 camera.position.y=cp
+            }
+        }
+    }
+    Shortcut{
+        sequence: 'Shift+Up'
+        onActivated: {
+            camera.position.z+=50.0
+        }
+    }
+    Shortcut{
+        sequence: 'Shift+Down'
+        onActivated: {
+            camera.position.z-=50.0
+        }
+    }
+    Shortcut{
+        sequence: 'c'
+        onActivated: {
+            if(view.camera===camera2){
+                view.camera=camera
+            }else{
+                view.camera=camera2
             }
         }
     }
