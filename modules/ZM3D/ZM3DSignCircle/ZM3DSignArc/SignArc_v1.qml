@@ -67,9 +67,44 @@ Model {
 
         }
     }
+    Model {
+        id: xModelIcon
+        source: "#Sphere"
+        scale: Qt.vector3d(1.0, 1.0, 1.0)
+        position: Qt.vector3d(0, 0, 0)
+        //rotation: Qt.vector3d(0, 0, 0)
+        rotation: Qt.vector3d(0, (r.ci*30)+15, 0)
+        property int deg: -1
+        Model {
+            id: m2
+            source: "#Cylinder"
+            scale: Qt.vector3d(0.8, r.parent.wProf+0.1, 0.8)
+            position: Qt.vector3d(0-r.parent.radio+10, 0, 0)
+            rotation: Qt.vector3d(0, (sc.rotation.z-r.ci*30)-90, 0)
+            materials: DefaultMaterial {
+                diffuseColor: 'red'//r.selected?aColors[0]:aColors[1]
+                specularAmount: 100
+                specularRoughness: 100
+                roughnessMap: Texture {
+                    source: "imgs/"+r.ci+".png"
+                    //source: "/home/ns/nsp/zool-release/resources/imgs/signos/1.svg"
+                    scaleU: 1.8
+                    scaleV: 1.8
+                    positionU: 0.05
+                    positionV: -0.8
+                    //rotationUV: 10
+
+
+                }
+            }
+            pickable: true
+            property bool isPicked: false
+        }
+
+    }
     Component.onCompleted: {
         for(let i=r.ci*30;i<(r.ci*30)+30;i++){
-            let obj=compDeg.createObject(ns, {deg: i})
+            let obj=compDeg.createObject(ns, {})
             obj.rotation=Qt.vector3d(0, parseFloat(i), 0)
         }
     }

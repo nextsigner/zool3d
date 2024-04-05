@@ -6,10 +6,28 @@ import ZM3D.ZM3DHousesCircle 1.0
 
 Node{
     id: r
+    //Tamaños
     property int d: 1000
+    property real anchoProfundoBandaSign: 2.4
+    property real anchoProfundoLineaHouse: 2.5
+
+
     property real currentSignRot: 0
     ZM3DSignCircle{
+        id: sc
         rotation.z:0-currentSignRot
     }
-    ZM3DHousesCircle{}
+    ZM3DHousesCircle{
+        id: hc
+        rotation.z:0-currentSignRot
+    }
+
+    function loadData(j){
+        //log.lv('j:'+JSON.stringify(j, null, 2))
+        log.lv('Deg Casa 1:'+j.ph.h1.gdec)
+        let rot=360-j.ph.h1.gdec
+        log.lv('Rot:'+rot)
+        r.currentSignRot=0-rot
+        hc.load(j.ph)
+    }
 }

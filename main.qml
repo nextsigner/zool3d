@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick3D 1.14
+import ZoolLogView 1.0
 import ZM3D 1.0
 import Luces 1.0
 
@@ -12,6 +13,7 @@ ApplicationWindow {
     title: 'Zool 3D'
     color: "#848895"
     visibility: 'Maximized'
+    property int fs: 50
     property color c: 'black'
 
 
@@ -137,29 +139,9 @@ ApplicationWindow {
         ZM3D{id: zm}
         PerspectiveCamera {
             id: camera
-            position: Qt.vector3d(0, 0, (0-zm.d)*2)
+            position: Qt.vector3d(0, 0, ((0-zm.d)*2)-400)
             //rotation.y: 30 //Con eje y rota/gira hacia los costados.
         }
-        //CustomCamera{
-        OrthographicCamera{
-            id: camera2
-            position: Qt.vector3d(0, 0, -1000)
-            //position: Qt.vector3d(0, 0, (0-zm.d)*4)
-            clipNear: 0.1 //Distancia mínima
-            clipFar: 1000.0 //Distancia máxima
-
-            //rotation.y: 30 //Con eje y rota/gira hacia los costados.
-        }
-        //        CustomCamera {
-        //            id: camera3
-        //            projectionType: CameraLens.PerspectiveProjection
-        //            fieldOfView: 45
-        //            aspectRatio: 16/9
-        //            nearPlane : 0.1
-        //            farPlane : 1000.0
-        //            position: Qt.vector3d(0, 0, -10)
-        //            viewCenter: Qt.vector3d(0, 0, 0)
-        //        }
 
         Model {
             id: bg
@@ -196,20 +178,23 @@ ApplicationWindow {
                 specularAmount: 0.4
                 specularRoughness: 0.4
             }
-            SequentialAnimation on rotation {
-                running: !cubeModel.isPicked
-                loops: Animation.Infinite
-                PropertyAnimation {
-                    duration: 2500
-                    from: Qt.vector3d(0, 0, 0)
-                    to: Qt.vector3d(360, 360, 360)
-                }
-            }
+
+//            SequentialAnimation on rotation {
+//                running: !cubeModel.isPicked
+//                loops: Animation.Infinite
+//                PropertyAnimation {
+//                    duration: 2500
+//                    from: Qt.vector3d(0, 0, 0)
+//                    to: Qt.vector3d(360, 360, 360)
+//                }
+//            }
+
         }
 
         //Rueda{}
 
     }
+
 
     MouseArea {
         anchors.fill: view
@@ -291,6 +276,10 @@ ApplicationWindow {
             camera.position.z=cz
         }
     }
+    ZoolLogView{
+        id: log
+        width: app.fs*20
+    }
     //MaterialControl{id:materialCtrl}
 
     //    Rectangle{
@@ -325,7 +314,13 @@ ApplicationWindow {
 
     Shortcut{
         sequence: 'Esc'
-        onActivated: Qt.quit()
+        onActivated: {
+            if(log.visible){
+                log.visible=false
+                return
+            }
+            Qt.quit()
+        }
     }
     Shortcut{
         sequence: 'Left'
@@ -404,5 +399,15 @@ ApplicationWindow {
                 view.camera=camera2
             }
         }
+    }
+
+    Component.onCompleted: {
+        log.lv('Inicio...')
+        let js=unik.getFile('/home/ns/j.json')
+        //console.log('JSON:\n'+js)
+        js=js.replace(/\n/g, '')
+        let json=JSON.parse(js)
+        zm.loadData(json)
+        //log.lv('JSON:\n'+JSON.stringify(json, null, 2))
     }
 }

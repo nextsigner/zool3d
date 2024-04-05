@@ -11,8 +11,9 @@ Node {
     property int radio: parent.d
     property int diam: radio*2
     property real wAnc: 1.0
+    //property real wAlt: 0.18
     property real wAlt: 0.18
-    property real wProf: 3.0
+    property real wProf: zm.anchoProfundoBandaSign
 
     ZM3DSignArc{ci:0}
     ZM3DSignArc{ci:1}

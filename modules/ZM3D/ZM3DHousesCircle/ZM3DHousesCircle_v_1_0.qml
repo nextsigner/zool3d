@@ -25,13 +25,16 @@ Model {
         ZM3DHouse{}
     }
     Component.onCompleted: {
-        load()
+        //load()
     }
-    function load(){
+    function load(j){
         for(var i=0;i<xHouses.children.length;i++){
             xHouses.children[i].destroy(0)
         }
-        let aDegs=[0, 35, 65, 90, 120, 155, 180, 210, 240, 270, 300, 330]
+        let aDegs=[]
+        for(i=0;i<12;i++){
+            aDegs.push(j['h'+parseInt(i + 1)].gdec)
+        }
         for(i=0;i<12;i++){
             let obj=compHouse.createObject(xHouses, {deg: i})
             obj.rotation=Qt.vector3d(0, 0, parseFloat(aDegs[i]))
