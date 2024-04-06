@@ -3,6 +3,7 @@ import QtQuick 2.14
 import QtQuick3D 1.14
 import ZM3D.ZM3DSignCircle 1.0
 import ZM3D.ZM3DHousesCircle 1.0
+import ZM3D.ZM3DBodiesCircle 1.0
 
 Node{
     id: r
@@ -21,6 +22,10 @@ Node{
         id: hc
         rotation.z:0-currentSignRot
     }
+    ZM3DBodiesCircle{
+        id: bc
+        rotation.z:0-currentSignRot
+    }
 
     function loadData(j){
         //log.lv('j:'+JSON.stringify(j, null, 2))
@@ -29,5 +34,6 @@ Node{
         log.lv('Rot:'+rot)
         r.currentSignRot=0-rot
         hc.load(j.ph)
+        bc.load(j.pc)
     }
 }

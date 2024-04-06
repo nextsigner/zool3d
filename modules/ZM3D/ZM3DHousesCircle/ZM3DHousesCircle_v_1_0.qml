@@ -41,4 +41,4 @@ Model {
             obj.ih=parseInt(i + 1)
         }
     }
-    }
+}

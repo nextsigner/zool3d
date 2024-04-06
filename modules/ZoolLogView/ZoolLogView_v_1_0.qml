@@ -56,7 +56,7 @@ Rectangle{
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                apps.showLog=false
+                //pps.showLog=false
                 r.visible=apps.showLog
             }
         }
