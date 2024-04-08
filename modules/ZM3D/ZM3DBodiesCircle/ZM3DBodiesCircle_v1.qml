@@ -38,9 +38,11 @@ Model {
         Node{
             id: n
             rotation: Qt.vector3d(0, 0, 0)
+            //position: !selected?Qt.vector3d(0-zm.d+150, 0, 0):Qt.vector3d(0-zm.d+150, 0, -500)
             position: Qt.vector3d(0-zm.d+150, 0, 0)
             property int hi
             property real s: 1.5
+            property bool selected: m.isPicked
             Model {
                 source: "#Sphere"
                 scale: Qt.vector3d(n.s-0.06, n.s-0.06, n.s-0.06)
@@ -49,16 +51,22 @@ Model {
                 }
             }
             Model {
+                id: m
                 source: "#Sphere"
                 scale: Qt.vector3d(n.s-0.05, n.s-0.05, n.s-0.05)
 
                 pickable: true
                 property bool isPicked: false
+                objectName: 'Sol'
                 onIsPickedChanged: {
                     if(isPicked){
                         zm.chi=n.hi
+                        camera.visible=false
+                        cameraLocal.visible=true
                     }else{
                         zm.chi=-1
+                        camera.visible=true
+                        cameraLocal.visible=false
                     }
                 }
                 materials: [
@@ -115,6 +123,29 @@ Model {
                         to: Qt.vector3d(360, 0, 0)
                         from: Qt.vector3d(0, 360, 0)
                     }
+                }
+            }
+            PerspectiveCamera {
+                id: cameraLocal
+                position: Qt.vector3d(0, 0, 0-1000)
+                rotation: Qt.vector3d(0, 0, 360-n.parent.rotation.z-sc.rotation.z)
+                visible: false
+                //rotation.y: 30 //Con eje y rota/gira hacia los costados.
+            }
+            SequentialAnimation on position{
+                running: n.selected
+                PropertyAnimation {
+                    duration: 6000
+                    to: Qt.vector3d(0-zm.d+150, 0, -300)
+                    from: Qt.vector3d(0-zm.d+150, 0, 0)
+                }
+            }
+            SequentialAnimation on position{
+                running: !n.selected
+                PropertyAnimation {
+                    duration: 6000
+                    to: Qt.vector3d(0-zm.d+150, 0, 0)
+                    from: Qt.vector3d(0-zm.d+150, 0, -300)
                 }
             }
         }

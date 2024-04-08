@@ -14,7 +14,7 @@ ApplicationWindow {
     color: "#848895"
     visibility: 'Maximized'
     property int fs: 50
-    property color c: 'black'
+    property color c: 'white'
 
 
     Row {
@@ -126,18 +126,18 @@ ApplicationWindow {
         }
 
 
-//        DirectionalLight {
-//            rotation: Qt.vector3d(0, 100, 0)
-//            brightness: 100
-//            SequentialAnimation on rotation {
-//                loops: Animation.Infinite
-//                PropertyAnimation {
-//                    duration: 5000
-//                    to: Qt.vector3d(0, 360, 0)
-//                    from: Qt.vector3d(0, 0, 0)
-//                }
-//            }
-//        }
+        //        DirectionalLight {
+        //            rotation: Qt.vector3d(0, 100, 0)
+        //            brightness: 100
+        //            SequentialAnimation on rotation {
+        //                loops: Animation.Infinite
+        //                PropertyAnimation {
+        //                    duration: 5000
+        //                    to: Qt.vector3d(0, 360, 0)
+        //                    from: Qt.vector3d(0, 0, 0)
+        //                }
+        //            }
+        //        }
 
         Luces{id: luces}
 
@@ -247,10 +247,18 @@ ApplicationWindow {
                 pickedObject.isPicked = !pickedObject.isPicked;
                 // Get picked model name
                 pickName.text = pickedObject.objectName;
+//                var object = result.node;
+//                if (object) {
+//                    log.lv("Posición absoluta del objeto seleccionado:", object.position);
+//                }
+//                log.lv('result.position: '+pickedObject.parent.position)
+//                log.lv('result.position: '+pickedObject.node)
+                //camera.position=result.position
                 // Get other pick specifics
                 uvPosition.text = "("
                         + result.uvPosition.x.toFixed(2) + ", "
                         + result.uvPosition.y.toFixed(2) + ")";
+                //camera.position.x=result.uvPosition.x
                 distance.text = result.distance.toFixed(2);
                 scenePosition.text = "("
                         + result.scenePosition.x.toFixed(2) + ", "
@@ -317,7 +325,7 @@ ApplicationWindow {
         id: log
         width: app.fs*20
     }
-    MaterialControl{id:materialCtrl}
+    //MaterialControl{id:materialCtrl}
 
     //    Rectangle{
     //        anchors.fill: parent
