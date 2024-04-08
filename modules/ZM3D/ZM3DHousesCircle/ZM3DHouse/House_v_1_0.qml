@@ -10,7 +10,7 @@ Model {
     property int ih: 12
     property real anchoProfundoLineaHouse: 2.5
     property var aColors: ['red', 'green']
-    property bool selected: false
+    property bool selected: ih===zm.chi || ih===zm.chi+1
     scale.x: 1.0
     scale.y: 1.0
     scale.z: 1.0
@@ -18,12 +18,14 @@ Model {
     materials: DefaultMaterial {
         diffuseColor: "yellow"
     }
-    Timer{
-        running: true
-        repeat: true
-        interval: 1000
-        onTriggered: r.selected=!r.selected
-    }
+
+//    Timer{
+//        running: true
+//        repeat: true
+//        interval: 1000
+//        onTriggered: r.selected=!r.selected
+//    }
+
     Model {
         id: eje
         source: "#Cube"

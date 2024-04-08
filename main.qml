@@ -116,14 +116,28 @@ ApplicationWindow {
         renderMode: View3D.Underlay
         environment: SceneEnvironment {
             probeBrightness: 0//250
-            clearColor: "#848895"
+            //clearColor: "#848895"
+            clearColor: "#000"
 
             backgroundMode: SceneEnvironment.Color
-            //            lightProbe: Texture {
-            //                source: "maps/OpenfootageNET_garage-1024.hdr"
-            //            }
+            lightProbe: Texture {
+                source: "maps-/OpenfootageNET_garage-1024.hdr"
+            }
         }
 
+
+//        DirectionalLight {
+//            rotation: Qt.vector3d(0, 100, 0)
+//            brightness: 100
+//            SequentialAnimation on rotation {
+//                loops: Animation.Infinite
+//                PropertyAnimation {
+//                    duration: 5000
+//                    to: Qt.vector3d(0, 360, 0)
+//                    from: Qt.vector3d(0, 0, 0)
+//                }
+//            }
+//        }
 
         Luces{id: luces}
 
@@ -147,6 +161,7 @@ ApplicationWindow {
             id: bg
             source: "#Cube"
             pickable: true
+            visible: !isPicked
             property bool isPicked: false
 
             scale.x: 100
@@ -179,20 +194,42 @@ ApplicationWindow {
                 specularRoughness: 0.4
             }
 
-//            SequentialAnimation on rotation {
-//                running: !cubeModel.isPicked
-//                loops: Animation.Infinite
-//                PropertyAnimation {
-//                    duration: 2500
-//                    from: Qt.vector3d(0, 0, 0)
-//                    to: Qt.vector3d(360, 360, 360)
-//                }
-//            }
+            //            SequentialAnimation on rotation {
+            //                running: !cubeModel.isPicked
+            //                loops: Animation.Infinite
+            //                PropertyAnimation {
+            //                    duration: 2500
+            //                    from: Qt.vector3d(0, 0, 0)
+            //                    to: Qt.vector3d(360, 360, 360)
+            //                }
+            //            }
 
         }
 
-        //Rueda{}
-
+        Model {
+            source: "#Sphere"
+            scale: Qt.vector3d(2.0, 2.0, 2.0)
+            position: Qt.vector3d(0, 0, -250)
+            rotation: Qt.vector3d(0, 0, 0)
+            materials: [ PrincipledMaterial {
+                    metalness: 0.0
+                    roughness: 0.0
+                    specularAmount: 0.0
+                    indexOfRefraction: 1.0
+                    opacity: 1.0
+                    baseColorMap: Texture { source: "modules/ZM3D/ZM3DBodiesCircle/imgs/mundo.jpg" }
+                }
+            ]
+            SequentialAnimation on rotation {
+                loops: Animation.Infinite
+                running: true
+                PropertyAnimation {
+                    duration: 5000
+                    to: Qt.vector3d(0, 360, 0)
+                    from: Qt.vector3d(0, 0, 0)
+                }
+            }
+        }
     }
 
 
@@ -280,7 +317,7 @@ ApplicationWindow {
         id: log
         width: app.fs*20
     }
-    //MaterialControl{id:materialCtrl}
+    MaterialControl{id:materialCtrl}
 
     //    Rectangle{
     //        anchors.fill: parent
@@ -402,7 +439,7 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        log.lv('Inicio...')
+        //log.lv('Inicio...')
         let js=unik.getFile('/home/ns/j.json')
         //console.log('JSON:\n'+js)
         js=js.replace(/\n/g, '')
