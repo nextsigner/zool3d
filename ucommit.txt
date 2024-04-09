@@ -1,1 +1,1 @@
-Se agrega camaraGiro
+Se agrega función getGdec() en zm

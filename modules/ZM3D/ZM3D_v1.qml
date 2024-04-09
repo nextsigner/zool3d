@@ -48,4 +48,10 @@ Node{
         hc.load(j.ph)
         bc.load(j.pc)
     }
+
+    function getObjZGdec(gdec){
+        let nz=-90-zm.currentSignRot-gdec+90
+        if(nz>360.00)nz=360.00-nz
+        return nz
+    }
 }

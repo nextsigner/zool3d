@@ -43,6 +43,12 @@ Model {
             property int hi
             property real s: 1.5
             property bool selected: m.isPicked
+            onSelectedChanged: {
+//                if(selected){
+//                    view.camera=cameraGiro
+//                    ncg.gdec=zm.getObjZGdec(n.rotation.z)
+//                }
+            }
             Model {
                 source: "#Sphere"
                 scale: Qt.vector3d(n.s-0.06, n.s-0.06, n.s-0.06)
@@ -63,7 +69,10 @@ Model {
                         zm.chi=n.hi
                         camera.visible=false
                         cameraLocal.visible=true
-                        view.cCam=cameraLocal
+                        //view.cCam=cameraLocal
+                        let nz=zm.getObjZGdec(n.rotation.z)
+                        log.lv('nz:'+nz)
+                        ncg.gdec=nz
                     }else{
                         zm.chi=-1
                         camera.visible=true
@@ -139,7 +148,7 @@ Model {
                     //rotation.y: 30 //Con eje y rota/gira hacia los costados.
                 }
                 SequentialAnimation{
-                    running: n.selected
+                    running: false//n.selected
                     loops: Animation.Infinite
                     PropertyAnimation {
                         target: n

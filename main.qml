@@ -113,6 +113,11 @@ ApplicationWindow {
         anchors.right: parent.right
         Column{
             Label {
+                text: "rot:"+parseFloat(zm.currentSignRot).toFixed(2)
+                font.pointSize: 14
+                color: app.c
+            }
+            Label {
                 text: "cbi:"+zm.cbi
                 font.pointSize: 14
                 color: app.c
@@ -167,12 +172,14 @@ ApplicationWindow {
 
         Node{
             id: ncg
-            rotation.z: 30
+            rotation.z: gdec
+            property real gdec: -90-zm.currentSignRot
+            onGdecChanged: rotation.z=gdec
+            //rotation.y:90
             Node{
                 //position: Qt.vector3d(0, 0, ((0-zm.d)*2)+2000)
                 position: Qt.vector3d(0, -1500, -600)
                 rotation.x: -90
-                //rotation.z: -30
                 PerspectiveCamera {
                     id: cameraGiro
                     rotation.x: 40
@@ -441,9 +448,9 @@ ApplicationWindow {
         onActivated: {
             //log.lv('view.cCam.objectName: '+view.cCam.objectName)
             if(view.camera===cameraGiro){
-                let cr=ncg.rotation.z
+                let cr=ncg.gdec
                 cr+=5
-                ncg.rotation.z=cr
+                ncg.gdec=cr
             }else{
                 if(view.cCam.position.x>-2000){
                     let cr=view.cCam.rotation.y
@@ -461,9 +468,9 @@ ApplicationWindow {
         sequence: 'Right'
         onActivated: {
             if(view.camera===cameraGiro){
-                let cr=ncg.rotation.z
+                let cr=ncg.gdec
                 cr-=5
-                ncg.rotation.z=cr
+                ncg.gdec=cr
             }else{
             if(view.cCam.position.x<2000){
                 let cr=view.cCam.rotation.y
