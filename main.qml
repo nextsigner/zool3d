@@ -109,11 +109,23 @@ ApplicationWindow {
         }
     }
 
+    Row{
+        anchors.right: parent.right
+        Column{
+            Label {
+                text: "cbi:"+zm.cbi
+                font.pointSize: 14
+                color: app.c
+            }
+        }
+    }
 
     View3D {
         id: view
         anchors.fill: parent
         renderMode: View3D.Underlay
+        property var cCam: camera//Giro
+        camera: cCam
         environment: SceneEnvironment {
             probeBrightness: 0//250
             //clearColor: "#848895"
@@ -151,35 +163,85 @@ ApplicationWindow {
         //        }
 
         ZM3D{id: zm}
+
+
+        Node{
+            id: ncg
+            rotation.z: 30
+            Node{
+                //position: Qt.vector3d(0, 0, ((0-zm.d)*2)+2000)
+                position: Qt.vector3d(0, -1500, -600)
+                rotation.x: -90
+                //rotation.z: -30
+                PerspectiveCamera {
+                    id: cameraGiro
+                    rotation.x: 40
+                }
+                Node{
+                    position: cameraGiro.position
+                    rotation: cameraGiro.rotation
+                    //visible: r.verPosicionDeCamara
+                    Model {
+                        id: esferaFoco
+                        source: "#Sphere"
+                        pickable: true
+                        scale.x: 0.5
+                        scale.y: 0.5
+                        scale.z: 0.5
+                        materials: DefaultMaterial {
+                            diffuseColor: 'red'
+                        }
+                    }
+                    Model {
+                        source: "#Cube"
+                        pickable: true
+                        scale.x: 0.1
+                        scale.y: 1.0
+                        scale.z: 0.1
+                        materials: DefaultMaterial {
+                            diffuseColor: 'blue'
+                        }
+                    }
+                    Model {
+                        source: "#Cube"
+                        pickable: true
+                        scale.x: 0.1
+                        scale.y: 0.1
+                        scale.z: 1.0
+                        materials: DefaultMaterial {
+                            diffuseColor: 'yellow'
+                        }
+                    }
+                    Model {
+                        source: "#Cube"
+                        pickable: true
+                        scale.x: 1.0
+                        scale.y: 0.1
+                        scale.z: 0.1
+                        materials: DefaultMaterial {
+                            diffuseColor: 'white'
+                        }
+                    }
+                }
+            }
+            SequentialAnimation on rotation {
+                //enabled: false
+                loops: Animation.Infinite
+                running: false
+                PropertyAnimation {
+                    duration: 12000
+                    to: Qt.vector3d(0, 0, 0)
+                    from: Qt.vector3d(0, 0, 360)
+                }
+            }
+        }
+
         PerspectiveCamera {
             id: camera
             position: Qt.vector3d(0, 0, ((0-zm.d)*2)-400)
-            //rotation.y: 30 //Con eje y rota/gira hacia los costados.
-        }
-
-        Model {
-            id: bg
-            source: "#Cube"
-            pickable: true
-            visible: !isPicked
-            property bool isPicked: false
-
-            scale.x: 100
-            scale.y: 100
-            scale.z: 10
-            position.x: 0
-            position.y: 0
-            position.z: 600
-
-            materials: DefaultMaterial {
-                diffuseColor: "#000"
-                specularAmount: 0.1
-                specularRoughness: 0.1
-                //roughnessMap: Texture { source: "maps/roughness.jpg" }
-            }
-
         }
         Model {
+            visible: false
             id: centro
             source: "#Sphere"
             pickable: true
@@ -209,7 +271,7 @@ ApplicationWindow {
         Model {
             source: "#Sphere"
             scale: Qt.vector3d(2.0, 2.0, 2.0)
-            position: Qt.vector3d(0, 0, -250)
+            position: Qt.vector3d(0, 0, -100)
             rotation: Qt.vector3d(0, 0, 0)
             materials: [ PrincipledMaterial {
                     metalness: 0.0
@@ -247,18 +309,18 @@ ApplicationWindow {
                 pickedObject.isPicked = !pickedObject.isPicked;
                 // Get picked model name
                 pickName.text = pickedObject.objectName;
-//                var object = result.node;
-//                if (object) {
-//                    log.lv("Posición absoluta del objeto seleccionado:", object.position);
-//                }
-//                log.lv('result.position: '+pickedObject.parent.position)
-//                log.lv('result.position: '+pickedObject.node)
-                //camera.position=result.position
+                //                var object = result.node;
+                //                if (object) {
+                //                    log.lv("Posición absoluta del objeto seleccionado:", object.position);
+                //                }
+                //                log.lv('result.position: '+pickedObject.parent.position)
+                //                log.lv('result.position: '+pickedObject.node)
+                //view.cCam.position=result.position
                 // Get other pick specifics
                 uvPosition.text = "("
                         + result.uvPosition.x.toFixed(2) + ", "
                         + result.uvPosition.y.toFixed(2) + ")";
-                //camera.position.x=result.uvPosition.x
+                //view.cCam.position.x=result.uvPosition.x
                 distance.text = result.distance.toFixed(2);
                 scenePosition.text = "("
                         + result.scenePosition.x.toFixed(2) + ", "
@@ -287,11 +349,11 @@ ApplicationWindow {
             }
         }
         onDoubleClicked: {
-            camera.position=Qt.vector3d(0, 0, (0-zm.d)*2)
-            camera.rotation=Qt.vector3d(0, 0, 0)
+            view.cCam.position=Qt.vector3d(0, 0, (0-zm.d)*2)
+            view.cCam.rotation=Qt.vector3d(0, 0, 0)
         }
         onWheel: {
-            let cz=camera.position.z
+            let cz=view.cCam.position.z
             if (wheel.modifiers & Qt.ControlModifier) {
                 if(wheel.angleDelta.y>=0){
                     cz+=40
@@ -318,7 +380,7 @@ ApplicationWindow {
                 }
             }
             //reSizeAppsFs.restart()
-            camera.position.z=cz
+            view.cCam.position.z=cz
         }
     }
     ZoolLogView{
@@ -368,80 +430,110 @@ ApplicationWindow {
         }
     }
     Shortcut{
+        sequence: 'Ctrl+Esc'
+        onActivated: {
+            view.cCam.position=Qt.vector3d(0, 0, (0-zm.d)*2)
+            view.cCam.rotation=Qt.vector3d(0, 0, 0)
+        }
+    }
+    Shortcut{
         sequence: 'Left'
         onActivated: {
-            if(camera.position.x>-2000){
-                let cr=camera.rotation.y
+            //log.lv('view.cCam.objectName: '+view.cCam.objectName)
+            if(view.camera===cameraGiro){
+                let cr=ncg.rotation.z
                 cr+=5
-                camera.rotation.y=cr
+                ncg.rotation.z=cr
+            }else{
+                if(view.cCam.position.x>-2000){
+                    let cr=view.cCam.rotation.y
+                    cr+=5
+                    view.cCam.rotation.y=cr
 
-                let cp=camera.position.x
-                cp-=200
-                camera.position.x=cp
+                    let cp=view.cCam.position.x
+                    cp-=200
+                    view.cCam.position.x=cp
+                }
             }
         }
     }
     Shortcut{
         sequence: 'Right'
         onActivated: {
-            if(camera.position.x<2000){
-                let cr=camera.rotation.y
+            if(view.camera===cameraGiro){
+                let cr=ncg.rotation.z
                 cr-=5
-                camera.rotation.y=cr
+                ncg.rotation.z=cr
+            }else{
+            if(view.cCam.position.x<2000){
+                let cr=view.cCam.rotation.y
+                cr-=5
+                view.cCam.rotation.y=cr
 
-                let cp=camera.position.x
+                let cp=view.cCam.position.x
                 cp+=200
-                camera.position.x=cp
+                view.cCam.position.x=cp
+            }
             }
         }
     }
     Shortcut{
         sequence: 'Up'
         onActivated: {
-            if(camera.position.y<2000){
-                let cr=camera.rotation.x
+            if(view.camera===cameraGiro){
+                zm.cbi++
+            }else{
+            if(view.cCam.position.y<2000){
+                let cr=view.cCam.rotation.x
                 cr+=5
-                camera.rotation.x=cr
+                view.cCam.rotation.x=cr
 
-                let cp=camera.position.y
+                let cp=view.cCam.position.y
                 cp+=200
-                camera.position.y=cp
+                view.cCam.position.y=cp
+            }
             }
         }
     }
     Shortcut{
         sequence: 'Down'
         onActivated: {
-            if(camera.position.y>-2000){
-                let cr=camera.rotation.x
+            if(view.camera===cameraGiro){
+                zm.cbi--
+            }else{
+            if(view.cCam.position.y>-2000){
+                let cr=view.cCam.rotation.x
                 cr-=5
-                camera.rotation.x=cr
+                view.cCam.rotation.x=cr
 
-                let cp=camera.position.y
+                let cp=view.cCam.position.y
                 cp-=200
-                camera.position.y=cp
+                view.cCam.position.y=cp
+            }
             }
         }
     }
     Shortcut{
         sequence: 'Shift+Up'
         onActivated: {
-            camera.position.z+=50.0
+            view.cCam.position.z+=50.0
         }
     }
     Shortcut{
         sequence: 'Shift+Down'
         onActivated: {
-            camera.position.z-=50.0
+            view.cCam.position.z-=50.0
         }
     }
     Shortcut{
         sequence: 'c'
         onActivated: {
-            if(view.camera===camera2){
+            if(view.camera===cameraGiro){
                 view.camera=camera
+                view.cCam=camera
             }else{
-                view.camera=camera2
+                view.camera=cameraGiro
+                view.cCam=cameraGiro
             }
         }
     }

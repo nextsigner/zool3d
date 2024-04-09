@@ -9,7 +9,7 @@ Node{
     id: r
     //Tamaños
     property int d: 1000
-    property real anchoProfundoBandaSign: 2.4
+    property real anchoProfundoBandaSign: 0.15
     property real anchoProfundoLineaHouse: 2.5
 
     //Current Bodies and Houses Indexs
@@ -26,14 +26,17 @@ Node{
     ZM3DSignCircle{
         id: sc
         rotation.z:0-currentSignRot
+        //visible: false
     }
     ZM3DHousesCircle{
         id: hc
         rotation.z:0-currentSignRot
+        //visible: false
     }
     ZM3DBodiesCircle{
         id: bc
         rotation.z:0-currentSignRot
+        //visible: false
     }
 
     function loadData(j){

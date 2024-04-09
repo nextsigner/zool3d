@@ -8,7 +8,7 @@ Model {
     property bool isPicked: false
     property real rot: 0
     property int ih: 12
-    property real anchoProfundoLineaHouse: 2.5
+    property real anchoProfundoLineaHouse: zm.anchoProfundoBandaSign
     property var aColors: ['red', 'green']
     property bool selected: ih===zm.chi || ih===zm.chi+1
     scale.x: 1.0

@@ -87,5 +87,18 @@ Node{
                 diffuseColor: 'white'
             }
         }
+        Model {
+            source: "#Cone"
+            pickable: true
+            scale.x: 0.5
+            scale.y: 0.5
+            scale.z: 0.5
+            rotation.y:-90
+            rotation.z:90
+            position.z:50
+            materials: DefaultMaterial {
+                diffuseColor: '#ff8833'
+            }
+        }
     }
 }

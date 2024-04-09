@@ -79,7 +79,7 @@ Model {
             id: m2
             source: "#Cylinder"
             scale: Qt.vector3d(0.8, r.parent.wProf+0.1, 0.8)
-            position: Qt.vector3d(0-r.parent.radio+10, 0, 0)
+            position: Qt.vector3d(0-r.parent.radio, 0, 0)
             rotation: Qt.vector3d(0, (sc.rotation.z-r.ci*30)-90, 0)
             materials: DefaultMaterial {
                 diffuseColor: 'red'//r.selected?aColors[0]:aColors[1]
@@ -88,10 +88,10 @@ Model {
                 roughnessMap: Texture {
                     source: "imgs/"+r.ci+".png"
                     //source: "/home/ns/nsp/zool-release/resources/imgs/signos/1.svg"
-                    scaleU: 1.8
-                    scaleV: 1.8
-                    positionU: 0.05
-                    positionV: -0.8
+                    scaleU: 2.3
+                    scaleV: 2.3
+                    positionU: -0.05
+                    positionV: -1.2
                     //rotationUV: 10
 
 
