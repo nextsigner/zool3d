@@ -9,7 +9,7 @@ Model {
     scale: Qt.vector3d(1.0, 1.0, 1.0)
     position: Qt.vector3d(0, 0, 0)
     rotation: Qt.vector3d(90, 0, 0)
-    property int ci: 0
+    property int ci: zm.cbi
     //property color c: parent.colors[ci]
     property var aBdiesColors: ["#00ff00", "#33ff51", "#00ff88", "#ff8833", "#0f00ff", "#88ddff", "#0ff08d", "#ff5133", "#ff51dd", "#3f313f", "#ddff00", "#ff3838", "#ffff38", "#38ffcc", "#cc3838", "#ac38ff", "#afafaf", "#f8f838", "#ff38ff", "#ffccaa"]
     property var aBodies: ['Sol', 'Luna', 'Mercurio', 'Venus', 'Marte', 'Júpiter', 'Saturno', 'Urano', 'Neptuno', 'Plutón', 'N.Norte', 'N.Sur', 'Quirón', 'Selena', 'Lilith', 'Pholus', 'Ceres', 'Pallas', 'Juno', 'Vesta']
@@ -25,8 +25,20 @@ Model {
             property int bi
             property int hi
             Component.onCompleted: {
-                if(xModel.bi===0){
-                    let obj=c1.createObject(xModel, {hi: xModel.hi})
+                let i=xModel.bi
+                if(i===0 || i===1){
+                    let s
+                    let aS
+                    if(i===0){//Sol
+                        s=1.5
+                        aS=["imgs/sol/basecolor2.jpg", "imgs/sol/metallic.jpg", "maps/metallic/roughness.jpg"]
+                    }else if(i===1){//Luna
+                        s=0.8
+                        aS=["imgs/luna/basecolor2.jpg", "imgs/luna/metallic.jpg", "maps/metallic/roughness.jpg"]
+                    }else{
+                        s=0.4
+                    }
+                    let obj=c1.createObject(xModel, {s: s, hi: xModel.hi, aSources: aS})
                 }else{
                     let obj=c2.createObject(xModel, {hi: xModel.hi})
                 }
@@ -41,14 +53,9 @@ Model {
             //position: !selected?Qt.vector3d(0-zm.d+150, 0, 0):Qt.vector3d(0-zm.d+150, 0, -500)
             position: Qt.vector3d(0-zm.d+150, 0, 0)
             property int hi
+            property var aSources: ["imgs/sol/basecolor2.jpg", "imgs/sol/metallic.jpg", "maps/metallic/roughness.jpg"]
             property real s: 1.5
             property bool selected: m.isPicked
-            onSelectedChanged: {
-//                if(selected){
-//                    view.camera=cameraGiro
-//                    ncg.gdec=zm.getObjZGdec(n.rotation.z)
-//                }
-            }
             Model {
                 source: "#Sphere"
                 scale: Qt.vector3d(n.s-0.06, n.s-0.06, n.s-0.06)
@@ -71,7 +78,7 @@ Model {
                         cameraLocal.visible=true
                         //view.cCam=cameraLocal
                         let nz=zm.getObjZGdec(n.rotation.z)
-                        log.lv('nz:'+nz)
+                        //log.lv('nz:'+nz)
                         ncg.gdec=nz
                     }else{
                         zm.chi=-1
@@ -111,15 +118,16 @@ Model {
                 scale: Qt.vector3d(n.s, n.s, n.s)
                 materials: [
                     PrincipledMaterial {
+                        id: matc1
                         specularAmount: 0.0 //De 0.0 a 1.0
                         indexOfRefraction: 0.0//De 1.0 3.0
                         opacity: 0.5
-                        baseColorMap: Texture {source: "imgs/sol/basecolor2.jpg"}
+                        baseColorMap: Texture {id: s1matc1; source: n.aSources[0]}
                         //Metalizar
                         metalness: 0.1 //De 0.0 a 1.0
-                        metalnessMap: Texture { source: "imgs/sol/metallic.jpg" }//Metalicidad
+                        metalnessMap: Texture {id: s2matc1;  source: n.aSources[1] }//Metalicidad
                         //Arrugar
-                        roughnessMap: Texture { source: "maps/metallic/roughness.jpg" }//Rugosidad
+                        roughnessMap: Texture {id: s3matc1;  source: n.aSources[2] }//Rugosidad
                         roughness: 0.0 //De 0.0 a 1.0
 
                         //normalMap: Texture { source: "imgs/sol/normal.jpg" }
@@ -174,6 +182,9 @@ Model {
                     to: Qt.vector3d(0-zm.d+150, 0, 0)
                     from: Qt.vector3d(0-zm.d+150, 0, -300)
                 }
+            }
+            Component.onCompleted:{
+
             }
         }
     }

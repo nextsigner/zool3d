@@ -1,1 +1,1 @@
-Se agrega función getGdec() en zm
+Se crean imagenes de basecolor1 y basecolor2 para la luna
