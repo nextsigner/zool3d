@@ -1,4 +1,4 @@
-import QtQuick 2.14
+﻿import QtQuick 2.14
 import QtQuick3D 1.14
 import QtQuick3D.Materials 1.14
 
@@ -13,6 +13,9 @@ Model {
     //property color c: parent.colors[ci]
     property var aBdiesColors: ["#00ff00", "#33ff51", "#00ff88", "#ff8833", "#0f00ff", "#88ddff", "#0ff08d", "#ff5133", "#ff51dd", "#3f313f", "#ddff00", "#ff3838", "#ffff38", "#38ffcc", "#cc3838", "#ac38ff", "#afafaf", "#f8f838", "#ff38ff", "#ffccaa"]
     property var aBodies: ['Sol', 'Luna', 'Mercurio', 'Venus', 'Marte', 'Júpiter', 'Saturno', 'Urano', 'Neptuno', 'Plutón', 'N.Norte', 'N.Sur', 'Quirón', 'Selena', 'Lilith', 'Pholus', 'Ceres', 'Pallas', 'Juno', 'Vesta']
+
+    property var aD: [120, 60, 70, 85, 80, 80, 80, 80, 80] //Array Distancias
+    property var aA: [0, 100, 120] //Array Alturas
     Node{
         id: nb
     }
@@ -24,21 +27,116 @@ Model {
             scale: Qt.vector3d(1.0, 1.0, 1.0)
             property int bi
             property int hi
+            property var aIHs: []
             Component.onCompleted: {
                 let i=xModel.bi
-                if(i===0 || i===1){
+                if(i<=19){
                     let s
                     let aS
+                    let objName=''
+                    let drz=0
+                    let tipo=''
                     if(i===0){//Sol
                         s=1.5
-                        aS=["imgs/sol/basecolor2.jpg", "imgs/sol/metallic.jpg", "maps/metallic/roughness.jpg"]
+                        objName='Sol'
+                        tipo='personal'
+                        aS=["imgs/sol/basecolor2.jpg", "imgs/sol/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/sol/metallic.jpg"]
                     }else if(i===1){//Luna
                         s=0.8
-                        aS=["imgs/luna/basecolor2.jpg", "imgs/luna/metallic.jpg", "maps/metallic/roughness.jpg"]
+                        drz=r.aD[0]
+                        objName='Luna'
+                        tipo='personal'
+                        aS=["imgs/luna/basecolor2.jpg", "imgs/luna/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/luna/basecolor1.jpg", "imgs/luna/metallic.jpg"]
+                    }else if(i===2){//Mercurio
+                        s=0.6
+                        drz=r.aD[0]+r.aD[1]
+                        objName='Mercurio'
+                        tipo='personal'
+                        aS=["imgs/mercurio/basecolor2.jpg", "imgs/mercurio/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/mercurio/basecolor2.jpg", "imgs/mercurio/metallic.jpg"]
+                    }else if(i===3){//Venus
+                        s=1.0
+                        drz=r.aD[0]+r.aD[1]+r.aD[2]
+                        objName='Venus'
+                        tipo='personal'
+                        aS=["imgs/venus/basecolor2.jpg", "imgs/venus/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/venus/basecolor1.jpg", "imgs/venus/basecolor2.jpg"]
+                    }else if(i===4){//Marte
+                        s=0.75
+                        drz=r.aD[0]+r.aD[1]+r.aD[2]+r.aD[3]
+                        objName='Marte'
+                        tipo='personal'
+                        aS=["imgs/marte/basecolor2.jpg", "imgs/marte/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/marte/basecolor2.jpg", "imgs/marte/metallic.jpg"]
+                    }else if(i===5){//Jupiter
+                        s=1.0
+                        drz=r.aD[0]+r.aD[1]+r.aD[2]+r.aD[3]+r.aD[4]
+                        objName='Jupiter'
+                        tipo='social'
+                        aS=["imgs/jupiter/basecolor2.jpg", "imgs/jupiter/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/jupiter/basecolor2.jpg", "imgs/jupiter/metallic.jpg"]
+                    }else if(i===6){//Saturno
+                        s=0.8
+                        drz=r.aD[0]+r.aD[1]+r.aD[2]+r.aD[3]+r.aD[4]+r.aD[5]
+                        objName='Saturno'
+                        tipo='social'
+                        aS=["imgs/saturno/basecolor1.jpg", "imgs/saturno/basecolor2.jpg", "imgs/saturno/metallic.jpg", "imgs/saturno/basecolor2.jpg", "imgs/saturno/basecolor2.jpg"]
+                    }else if(i===7){//Urano
+                        s=0.8
+                        drz=r.aD[0]+r.aD[1]+r.aD[2]+r.aD[3]+r.aD[4]+r.aD[5]+r.aD[6]
+                        objName='Urano'
+                        tipo='tranpersonal'
+                        aS=["imgs/urano/basecolor1.jpg", "imgs/urano/basecolor2.jpg", "imgs/urano/metallic.jpg", "imgs/urano/basecolor2.jpg", "imgs/urano/basecolor2.jpg"]
+                    }else if(i===8){//Neptuno
+                        s=0.8
+                        drz=r.aD[0]+r.aD[1]+r.aD[2]+r.aD[3]+r.aD[4]+r.aD[5]+r.aD[6]+r.aD[7]
+                        objName='Urano'
+                        tipo='tranpersonal'
+                        aS=["imgs/neptuno/basecolor1.jpg", "imgs/neptuno/basecolor2.jpg", "imgs/neptuno/metallic.jpg", "imgs/neptuno/basecolor2.jpg", "imgs/neptuno/basecolor2.jpg"]
+                    }else if(i===9){//Plutón
+                        s=0.6
+                        drz=r.aD[0]+r.aD[1]+r.aD[2]+r.aD[3]+r.aD[4]+r.aD[5]+r.aD[6]+r.aD[7]+r.aD[8]
+                        objName='Plutón'
+                        tipo='tranpersonal'
+                        aS=["imgs/pluton/basecolor1.jpg", "imgs/pluton/basecolor2.jpg", "imgs/pluton/metallic.jpg", "imgs/pluton/basecolor2.jpg", "imgs/pluton/basecolor2.jpg"]
+                    }else if(i===10){//Nodo Norte
+                        let obj=cNodosNS.createObject(xModel, {t: 0, hi: xModel.hi})
+                        return
+                    }else if(i===11){//Nodo Sur
+                        let obj=cNodosNS.createObject(xModel, {t: 1, hi: xModel.hi})
+                        return
+                    }else if(i===12){//Quirón
+                        drz=0
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, hi: xModel.hi})
+                        return
+                    }else if(i===13){//Selena
+                        drz=50
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'selena', hi: xModel.hi})
+                        return
+                    }else if(i===14){//Lilith
+                        drz=100
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'lilith', hi: xModel.hi})
+                        return
+                    }else if(i===15){//Pholus
+                        drz=150
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'pholus', hi: xModel.hi})
+                        return
+                    }else if(i===16){//Ceres
+                        drz=200
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'ceres', hi: xModel.hi})
+                        return
+                    }else if(i===17){//Pallas
+                        drz=250
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'pallas', hi: xModel.hi})
+                        return
+                    }else if(i===18){//Juno
+                        drz=300
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'juno', hi: xModel.hi})
+                        return
+                    }else if(i===19){//Vesta
+                        drz=350
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'vesta', hi: xModel.hi})
+                        return
                     }else{
                         s=0.4
                     }
-                    let obj=c1.createObject(xModel, {s: s, hi: xModel.hi, aSources: aS})
+                    let obj=c1.createObject(xModel, {tipo: tipo, aIHs: xModel.aIHs, objName: objName, drz: drz, s: s, bi: i, hi: xModel.hi, aSources: aS})
                 }else{
                     let obj=c2.createObject(xModel, {hi: xModel.hi})
                 }
@@ -51,11 +149,18 @@ Model {
             id: n
             rotation: Qt.vector3d(0, 0, 0)
             //position: !selected?Qt.vector3d(0-zm.d+150, 0, 0):Qt.vector3d(0-zm.d+150, 0, -500)
-            position: Qt.vector3d(0-zm.d+150, 0, 0)
+            //position: Qt.vector3d(0-zm.d+150, 0, 0)
+            //position: Qt.vector3d(0-zm.d+150+drz, 0, 0)
+            property var aIHs: []
+            property string objName: 'sin_nombre'
+            property string tipo: 'ninguno'
             property int hi
-            property var aSources: ["imgs/sol/basecolor2.jpg", "imgs/sol/metallic.jpg", "maps/metallic/roughness.jpg"]
+            property var aSources: ["imgs/sol/basecolor2.jpg", "imgs/sol/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/sol/basecolor1.jpg", "imgs/sol/metallic.jpg"]
             property real s: 1.5
-            property bool selected: m.isPicked
+            //property bool selected: zm.cbi===r.ci
+            property bool selected: zm.cbi===n.bi
+            property int bi: -1
+            property int drz: 0 //Distancia de la rueda zodiacal
             Model {
                 source: "#Sphere"
                 scale: Qt.vector3d(n.s-0.06, n.s-0.06, n.s-0.06)
@@ -69,11 +174,13 @@ Model {
                 scale: Qt.vector3d(n.s-0.05, n.s-0.05, n.s-0.05)
 
                 pickable: true
-                property bool isPicked: zm.cbi===r.ci
-                objectName: 'Sol'
+                property bool isPicked: false
+                objectName: n.objName
                 onIsPickedChanged: {
+                    if(view.camera===cameraGiro)return
                     if(isPicked){
                         zm.chi=n.hi
+                        zm.cbi=n.bi
                         camera.visible=false
                         cameraLocal.visible=true
                         //view.cCam=cameraLocal
@@ -82,6 +189,7 @@ Model {
                         ncg.gdec=nz
                     }else{
                         zm.chi=-1
+                        zm.cbi=-1
                         camera.visible=true
                         cameraLocal.visible=false
                         view.cCam=camera
@@ -92,10 +200,10 @@ Model {
                         specularAmount: 0.0 //De 0.0 a 1.0
                         indexOfRefraction: 0.0//De 1.0 3.0
                         opacity: 0.5
-                        baseColorMap: Texture {source: "imgs/sol/basecolor1.jpg"}
+                        baseColorMap: Texture {source: n.aSources[3]}
                         //Metalizar
                         metalness: 0.1 //De 0.0 a 1.0
-                        metalnessMap: Texture { source: "imgs/sol/metallic.jpg" }//Metalicidad
+                        metalnessMap: Texture { source: n.aSources[4]}//Metalicidad
                         //Arrugar
                         roughnessMap: Texture { source: "maps/metallic/roughness.jpg" }//Rugosidad
                         roughness: 0.0 //De 0.0 a 1.0
@@ -134,6 +242,30 @@ Model {
 
                     }
                 ]
+                Model {
+                    id: anillo1
+                    source: "#Cylinder"
+                    scale: Qt.vector3d(1.25, 0.05, 1.25)
+                    position: Qt.vector3d(0, 0, 0)
+                    rotation: Qt.vector3d(0, 90, 0)
+                    visible: n.bi===6 || n.bi===7
+                    materials: [
+                        PrincipledMaterial {
+                            specularAmount: 0.0 //De 0.0 a 1.0
+                            indexOfRefraction: 0.0//De 1.0 3.0
+                            opacity: 1.0
+                            baseColorMap: Texture {source: n.aSources[3]}
+                            //Metalizar
+                            metalness: 0.1 //De 0.0 a 1.0
+                            metalnessMap: Texture { source: n.aSources[4]}//Metalicidad
+                            //Arrugar
+                            roughnessMap: Texture { source: "maps/metallic/roughness.jpg" }//Rugosidad
+                            roughness: 0.0 //De 0.0 a 1.0
+
+                            //normalMap: Texture { source: "imgs/sol/normal.jpg" }//Piel de fondo
+                        }
+                    ]
+                }
                 SequentialAnimation on rotation {
                     loops: Animation.Infinite
                     running: true
@@ -154,6 +286,9 @@ Model {
                     rotation: Qt.vector3d(0, 0, 360-n.parent.rotation.z-sc.rotation.z)
                     visible: false
                     //rotation.y: 30 //Con eje y rota/gira hacia los costados.
+                    //Behavior on rotation.x{NumberAnimation{duration: 2000}}
+                    //Behavior on rotation.y{NumberAnimation{duration: 2000}}
+                    //Behavior on rotation.z{NumberAnimation{duration: 2000}}
                 }
                 SequentialAnimation{
                     running: false//n.selected
@@ -168,7 +303,7 @@ Model {
                 }
             }
             SequentialAnimation on position{
-                running: n.selected
+                running: false//!n.selected
                 PropertyAnimation {
                     duration: 6000
                     to: Qt.vector3d(0-zm.d+150, 0, -300)
@@ -176,27 +311,106 @@ Model {
                 }
             }
             SequentialAnimation on position{
-                running: !n.selected
+                running: n.selected
                 PropertyAnimation {
                     duration: 6000
                     to: Qt.vector3d(0-zm.d+150, 0, 0)
                     from: Qt.vector3d(0-zm.d+150, 0, -300)
                 }
             }
-            Component.onCompleted:{
 
+            Component.onCompleted:{
+                let vh1=n.aIHs[n.bi]
+                let vh2=n.aIHs[n.bi+1]
+                let b=estanA2OMasCasaDeDiferencia(vh1, vh2)
+                let alt=0
+                if(n.tipo==='personal'){
+                    alt=0
+                }
+                if(n.tipo==='social'){
+                    alt=80
+                }
+                if(n.tipo==='transpersonal'){
+                    alt=160
+                }
+                position=Qt.vector3d(0-zm.d+150+drz, 0, alt)
+                /*if((n.bi>=1 && n.bi < 8) && b){
+                    position=Qt.vector3d(0-zm.d+150+drz-r.aD[n.bi-1], 0, 0)
+                }else{
+                    position=Qt.vector3d(0-zm.d+150+drz, 0, alt)
+                }*/
+            }
+        }
+    }
+    Component{
+        id: compExtraBodie
+        Model {
+            id: m
+            source: "#Cube"
+            scale: Qt.vector3d(0.5, 0.5, 0.5)
+            position: Qt.vector3d(0-zm.d+130+drz, 0, -100)
+            rotation: Qt.vector3d(0, 90, 0)
+            property string extraBodie: 'hiron'
+            property int drz: 0
+            materials: [
+                DefaultMaterial {
+                    id: cubeMaterial
+                    diffuseColor: 'white'
+                    diffuseMap: Texture {
+                        source: "/home/ns/nsp/zool3d/modules/ZM3D/ZM3DBodiesCircle/imgs_white_trans/"+m.extraBodie+".png"
+                        scaleU: 1.0
+                        scaleV: 1.0
+                        //positionU: 0.1
+                        //positionV: -0.9
+                    }
+                }
+            ]
+            SequentialAnimation on rotation {
+                loops: Animation.Infinite
+                running: false//true
+                PropertyAnimation {
+                    duration: 2000
+                    to: Qt.vector3d(0, 0, 0)
+                    from: Qt.vector3d(0, 360, 360)
+                }
             }
         }
     }
     Component{
         id: c2
         Model {
-            source: "#Sphere"
-            scale: Qt.vector3d(1.0, 1.0, 1.0)
+            source: "#Cube"
+            scale: Qt.vector3d(0.5, 0.5, 0.5)
             position: Qt.vector3d(0-zm.d+150, 0, 0)
             rotation: Qt.vector3d(0, 90, 0)
+            materials: [
+                DefaultMaterial {
+                    id: cubeMaterial
+                    diffuseColor: 'white'
+                }
+            ]
+            SequentialAnimation on rotation {
+                loops: Animation.Infinite
+                running: false//true
+                PropertyAnimation {
+                    duration: 2000
+                    to: Qt.vector3d(0, 0, 0)
+                    from: Qt.vector3d(0, 360, 360)
+                }
+            }
+        }
+    }
+    Component{
+        id: cNodosNS
+        Model {
+            id: m
+            source: "#Cone"
+            scale: Qt.vector3d(1.0, 1.0, 1.0)
+            position: Qt.vector3d(0-zm.d+80, 0, -50)
+            rotation: Qt.vector3d(-90, 90, 0)
+            property int t: 0
             materials:DefaultMaterial {
-                diffuseColor: "blue"
+                diffuseColor: m.t===0?"red":"blue"
                 specularAmount: 0.0
                 indexOfRefraction:0.1
             }
@@ -209,14 +423,34 @@ Model {
         }
         let aDegs=[]
         let aIHs=[]
-        for(var i=0;i<20;i++){
+
+        //Estas variables p1 y p2 son para probar las distancias
+        //Para desactivarlas hay que poner p2=-1
+        let p1=12
+        let p2=-14
+
+        for(i=0;i<20;i++){
             let jb=j['c'+parseInt(i)]
-            aDegs.push(jb.gdec)
+            if(i===p2){
+                aDegs.push(aDegs[p1]+0)
+            }else{
+                aDegs.push(jb.gdec)
+            }
+
+
             aIHs.push(jb.ih)
         }
         for(i=0;i<20;i++){
-            let obj=compBodie.createObject(nb, {bi: i, hi: aIHs[i]})
+            let obj=compBodie.createObject(nb, {bi: i, hi: aIHs[i], aIHs: aIHs})
             obj.rotation=Qt.vector3d(0, 0, parseFloat(aDegs[i]))
         }
+    }
+    function estanA2OMasCasaDeDiferencia(h1, h2) {
+        if (h1 < 1 || h1 > 12 || h2 < 1 || h2 > 12) {
+            return false
+        }
+        let difference = Math.abs(h1 - h2);
+        let cyclicDifference = Math.min(difference, 12 - difference);
+        return cyclicDifference >= 2;
     }
 }

@@ -183,6 +183,9 @@ ApplicationWindow {
                 PerspectiveCamera {
                     id: cameraGiro
                     rotation.x: 40
+                    Behavior on rotation.x{NumberAnimation{duration: 2000}}
+                    Behavior on rotation.y{NumberAnimation{duration: 2000}}
+                    Behavior on rotation.z{NumberAnimation{duration: 2000}}
                 }
                 Node{
                     position: cameraGiro.position
@@ -246,6 +249,9 @@ ApplicationWindow {
         PerspectiveCamera {
             id: camera
             position: Qt.vector3d(0, 0, ((0-zm.d)*2)-400)
+            //Behavior on rotation.x{NumberAnimation{duration: 2000}}
+            //Behavior on rotation.y{NumberAnimation{duration: 2000}}
+            //Behavior on rotation.z{NumberAnimation{duration: 2000}}
         }
         Model {
             visible: false
@@ -294,8 +300,8 @@ ApplicationWindow {
                 running: true
                 PropertyAnimation {
                     duration: 5000
-                    to: Qt.vector3d(0, 360, 0)
-                    from: Qt.vector3d(0, 0, 0)
+                    to: Qt.vector3d(0, 90, 0)
+                    from: Qt.vector3d(360, 90, 0)
                 }
             }
         }
