@@ -124,6 +124,31 @@ ApplicationWindow {
             }
         }
     }
+    Rectangle {
+        id: itemCartel
+        layer.enabled: true
+        width: 1000
+        height: 1000
+        border.width: 10
+        border.color: 'red'
+        color: 'white'
+        x:0-width
+        rotation: 90
+        Rectangle{
+            width: parent.width
+            height: width
+            x: parent.width
+            transform: Scale{ xScale: -1 }
+            Text{
+                text: 'Zool3D'
+                font.pixelSize: parent.parent.width*0.2
+                rotation: 90
+                //color: 'white'
+
+                anchors.centerIn: parent
+            }
+        }
+    }
 
     View3D {
         id: view
@@ -305,6 +330,37 @@ ApplicationWindow {
                 }
             }
         }
+
+
+        Node{
+            scale: Qt.vector3d(0.2, 3.0, 3.0)
+            //position.z:-300
+            position.y: -300
+            visible: false
+            Model {
+                source: "#Cube"
+                scale: Qt.vector3d(0.2, 1.0, 1.0)
+                //position.x:-200
+                materials: [
+                    DefaultMaterial {
+                        diffuseColor: 'blue'
+                    }
+                ]
+            }
+            Model {
+                source: "#Cube"
+                scale: Qt.vector3d(1.0, 1.0, 1.0)
+                position.x:50
+                materials: [
+                    DefaultMaterial {
+                        id: mat
+                        diffuseMap: Texture {
+                            sourceItem: itemCartel
+                        }
+                    }
+                ]
+            }
+        }
     }
 
 
@@ -478,15 +534,15 @@ ApplicationWindow {
                 cr-=5
                 ncg.gdec=cr
             }else{
-            if(view.cCam.position.x<2000){
-                let cr=view.cCam.rotation.y
-                cr-=5
-                view.cCam.rotation.y=cr
+                if(view.cCam.position.x<2000){
+                    let cr=view.cCam.rotation.y
+                    cr-=5
+                    view.cCam.rotation.y=cr
 
-                let cp=view.cCam.position.x
-                cp+=200
-                view.cCam.position.x=cp
-            }
+                    let cp=view.cCam.position.x
+                    cp+=200
+                    view.cCam.position.x=cp
+                }
             }
         }
     }
@@ -496,15 +552,15 @@ ApplicationWindow {
             if(view.camera===cameraGiro){
                 zm.cbi++
             }else{
-            if(view.cCam.position.y<2000){
-                let cr=view.cCam.rotation.x
-                cr+=5
-                view.cCam.rotation.x=cr
+                if(view.cCam.position.y<2000){
+                    let cr=view.cCam.rotation.x
+                    cr+=5
+                    view.cCam.rotation.x=cr
 
-                let cp=view.cCam.position.y
-                cp+=200
-                view.cCam.position.y=cp
-            }
+                    let cp=view.cCam.position.y
+                    cp+=200
+                    view.cCam.position.y=cp
+                }
             }
         }
     }
@@ -514,15 +570,15 @@ ApplicationWindow {
             if(view.camera===cameraGiro){
                 zm.cbi--
             }else{
-            if(view.cCam.position.y>-2000){
-                let cr=view.cCam.rotation.x
-                cr-=5
-                view.cCam.rotation.x=cr
+                if(view.cCam.position.y>-2000){
+                    let cr=view.cCam.rotation.x
+                    cr-=5
+                    view.cCam.rotation.x=cr
 
-                let cp=view.cCam.position.y
-                cp-=200
-                view.cCam.position.y=cp
-            }
+                    let cp=view.cCam.position.y
+                    cp-=200
+                    view.cCam.position.y=cp
+                }
             }
         }
     }
@@ -550,14 +606,52 @@ ApplicationWindow {
             }
         }
     }
-
+    QtObject{
+        id: setZoolData
+        function setData(data){
+            let json=JSON.parse(data)
+            console.log('DATA::: '+data)
+            zm.loadData(json.data)
+        }
+    }
     Component.onCompleted: {
-        //log.lv('Inicio...')
-        let js=unik.getFile('/home/ns/j.json')
-        //console.log('JSON:\n'+js)
-        js=js.replace(/\n/g, '')
-        let json=JSON.parse(js)
-        zm.loadData(json)
         //log.lv('JSON:\n'+JSON.stringify(json, null, 2))
+        let args=Qt.application.arguments
+        let url=""
+        for(var i=0;i<args.length;i++){
+            let arg=args[i]
+            let m0
+            if(arg.indexOf('-urlZool=')===0){
+                m0=arg.split('-urlZool=')
+                url=""+m0[1]
+            }
+        }
+        if(url===""){
+            let js=unik.getFile('/home/ns/j.json')
+            //console.log('JSON:\n'+js)
+            js=js.replace(/\n/g, '')
+            let json=JSON.parse(js)
+            zm.loadData(json)
+        }else{
+            //Ejemplo
+            //getRD("http://www.zool.ar/zool/getZoolData?n=Ricardo&d=20&m=6&a=1975&h=23&min=4&gmt=-3&lugarNacimiento=Malargue%20Mendoza&lat=-35.4752134&lon=-69.585934&alt=0&ciudad=Malargue+Mendoza&ms=0&msReq=0&adminId=formwebzoolar&onlyJson=true", setZoolData)
+            getRD(url, setZoolData)
+        }
+
+    }
+
+    function getRD(url, item){//Remote Data
+        var request = new XMLHttpRequest()
+        request.open('GET', url, true);
+        request.onreadystatechange = function() {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                if (request.status && request.status === 200) {
+                    item.setData(request.responseText)
+                } else {
+                    item.setData("Url: "+url+" Status:"+request.status+" HTTP: "+request.statusText, false)
+                }
+            }
+        }
+        request.send()
     }
 }

@@ -1,1 +1,1 @@
-Se crean cubos de asteroides, lilith y otros
+Se carga mapa mediante parámetro -urlZool

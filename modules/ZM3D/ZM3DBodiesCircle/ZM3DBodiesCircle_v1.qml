@@ -67,31 +67,31 @@ Model {
                         aS=["imgs/marte/basecolor2.jpg", "imgs/marte/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/marte/basecolor2.jpg", "imgs/marte/metallic.jpg"]
                     }else if(i===5){//Jupiter
                         s=1.0
-                        drz=r.aD[0]+r.aD[1]+r.aD[2]+r.aD[3]+r.aD[4]
+                        drz=r.aD[4]
                         objName='Jupiter'
                         tipo='social'
                         aS=["imgs/jupiter/basecolor2.jpg", "imgs/jupiter/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/jupiter/basecolor2.jpg", "imgs/jupiter/metallic.jpg"]
                     }else if(i===6){//Saturno
                         s=0.8
-                        drz=r.aD[0]+r.aD[1]+r.aD[2]+r.aD[3]+r.aD[4]+r.aD[5]
+                        drz=r.aD[4]+r.aD[5]
                         objName='Saturno'
                         tipo='social'
                         aS=["imgs/saturno/basecolor1.jpg", "imgs/saturno/basecolor2.jpg", "imgs/saturno/metallic.jpg", "imgs/saturno/basecolor2.jpg", "imgs/saturno/basecolor2.jpg"]
                     }else if(i===7){//Urano
                         s=0.8
-                        drz=r.aD[0]+r.aD[1]+r.aD[2]+r.aD[3]+r.aD[4]+r.aD[5]+r.aD[6]
+                        drz=r.aD[4]+r.aD[5]+r.aD[6]
                         objName='Urano'
                         tipo='tranpersonal'
                         aS=["imgs/urano/basecolor1.jpg", "imgs/urano/basecolor2.jpg", "imgs/urano/metallic.jpg", "imgs/urano/basecolor2.jpg", "imgs/urano/basecolor2.jpg"]
                     }else if(i===8){//Neptuno
                         s=0.8
-                        drz=r.aD[0]+r.aD[1]+r.aD[2]+r.aD[3]+r.aD[4]+r.aD[5]+r.aD[6]+r.aD[7]
+                        drz=r.aD[4]+r.aD[5]+r.aD[6]+r.aD[7]
                         objName='Urano'
                         tipo='tranpersonal'
                         aS=["imgs/neptuno/basecolor1.jpg", "imgs/neptuno/basecolor2.jpg", "imgs/neptuno/metallic.jpg", "imgs/neptuno/basecolor2.jpg", "imgs/neptuno/basecolor2.jpg"]
                     }else if(i===9){//Plutón
                         s=0.6
-                        drz=r.aD[0]+r.aD[1]+r.aD[2]+r.aD[3]+r.aD[4]+r.aD[5]+r.aD[6]+r.aD[7]+r.aD[8]
+                        drz=r.aD[4]+r.aD[5]+r.aD[6]+r.aD[7]+r.aD[8]
                         objName='Plutón'
                         tipo='tranpersonal'
                         aS=["imgs/pluton/basecolor1.jpg", "imgs/pluton/basecolor2.jpg", "imgs/pluton/metallic.jpg", "imgs/pluton/basecolor2.jpg", "imgs/pluton/basecolor2.jpg"]
