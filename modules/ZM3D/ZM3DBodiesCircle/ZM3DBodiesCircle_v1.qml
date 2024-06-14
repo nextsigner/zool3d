@@ -28,6 +28,7 @@ Model {
             property int bi
             property int hi
             property var aIHs: []
+            property real gdec: 0.0
             Component.onCompleted: {
                 let i=xModel.bi
                 if(i<=19){
@@ -136,7 +137,7 @@ Model {
                     }else{
                         s=0.4
                     }
-                    let obj=c1.createObject(xModel, {tipo: tipo, aIHs: xModel.aIHs, objName: objName, drz: drz, s: s, bi: i, hi: xModel.hi, aSources: aS})
+                    let obj=c1.createObject(xModel, {tipo: tipo, aIHs: xModel.aIHs, gdec: xModel.gdec, objName: objName, drz: drz, s: s, bi: i, hi: xModel.hi, aSources: aS})
                 }else{
                     let obj=c2.createObject(xModel, {hi: xModel.hi})
                 }
@@ -148,19 +149,32 @@ Model {
         Node{
             id: n
             rotation: Qt.vector3d(0, 0, 0)
-            //position: !selected?Qt.vector3d(0-zm.d+150, 0, 0):Qt.vector3d(0-zm.d+150, 0, -500)
-            //position: Qt.vector3d(0-zm.d+150, 0, 0)
-            //position: Qt.vector3d(0-zm.d+150+drz, 0, 0)
             property var aIHs: []
+            property real gdec: 0.0
             property string objName: 'sin_nombre'
             property string tipo: 'ninguno'
             property int hi
             property var aSources: ["imgs/sol/basecolor2.jpg", "imgs/sol/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/sol/basecolor1.jpg", "imgs/sol/metallic.jpg"]
             property real s: 1.5
-            //property bool selected: zm.cbi===r.ci
-            property bool selected: zm.cbi===n.bi
+            property bool selected: zm.cbi===r.ci
+            //property bool selected: zm.cbi===n.bi
             property int bi: -1
             property int drz: 0 //Distancia de la rueda zodiacal
+            onSelectedChanged: {
+                //app.setRotCamSen(86+zm.currentSignRot+270)
+                //app.setRotCamSen(-90-zm.currentSignRot-1+89)
+                //app.setRotCamSen(-90-zm.currentSignRot-1+n.gdec)
+                //console.log('gdec '+n.bi+': '+n.gdec)
+                //if(selected){
+//                if(selected && n.bi===0){
+//                    //app.setRotCamSen(-90-zm.currentSignRot-1+parseInt(n.gdec))
+//                    app.setRotCamSen(-90-zm.currentSignRot-1+89)
+//                }
+//                if(selected && n.bi===1){
+//                    //app.setRotCamSen(-90-zm.currentSignRot-1+parseInt(n.gdec))
+//                    app.setRotCamSen(-90-zm.currentSignRot-1+0)
+//                }
+            }
             Model {
                 source: "#Sphere"
                 scale: Qt.vector3d(n.s-0.06, n.s-0.06, n.s-0.06)
@@ -181,12 +195,13 @@ Model {
                     if(isPicked){
                         zm.chi=n.hi
                         zm.cbi=n.bi
-                        camera.visible=false
-                        cameraLocal.visible=true
+                        /*camera.visible=false
+                        cameraLocal.visible=true*/
                         //view.cCam=cameraLocal
                         let nz=zm.getObjZGdec(n.rotation.z)
                         //log.lv('nz:'+nz)
                         ncg.gdec=nz
+                        app.setRotCamSen(-90-zm.currentSignRot-1+parseInt(n.gdec))
                     }else{
                         zm.chi=-1
                         zm.cbi=-1
@@ -441,8 +456,8 @@ Model {
             aIHs.push(jb.ih)
         }
         for(i=0;i<20;i++){
-            let obj=compBodie.createObject(nb, {bi: i, hi: aIHs[i], aIHs: aIHs})
-            obj.rotation=Qt.vector3d(0, 0, parseFloat(aDegs[i]))
+            let obj=compBodie.createObject(nb, {bi: i, hi: aIHs[i], aIHs: aIHs, gdec: aDegs[i]})
+            obj.rotation=Qt.vector3d(0, 0, parseFloat(aDegs[i])-1.5)
         }
     }
     function estanA2OMasCasaDeDiferencia(h1, h2) {

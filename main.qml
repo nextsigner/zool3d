@@ -4,6 +4,8 @@ import QtQuick3D 1.14
 import ZoolLogView 1.0
 import ZM3D 1.0
 import Luces 1.0
+import Sen 1.0
+
 
 ApplicationWindow {
     id: app
@@ -15,6 +17,8 @@ ApplicationWindow {
     visibility: 'Maximized'
     property int fs: 50
     property color c: 'white'
+
+
 
 
     Row {
@@ -125,31 +129,85 @@ ApplicationWindow {
         }
     }
     Rectangle {
-        id: itemCartel
+        id: itemBodieSen
         layer.enabled: true
-        width: 1000
+        width: height/4
         height: 1000
-        border.width: 10
+        border.width: 0
         border.color: 'red'
         color: 'white'
-        x:0-width
+        x:0-(width*8)
         rotation: 90
         Rectangle{
             width: parent.width
-            height: width
+            height: parent.height
             x: parent.width
             transform: Scale{ xScale: -1 }
+            border.width: 50
+            border.color: 'red'
+
             Text{
-                text: 'Zool3D'
+                text:'<b>'+zm.aBodies[zm.cbi]+'</b>'
                 font.pixelSize: parent.parent.width*0.2
                 rotation: 90
                 //color: 'white'
 
                 anchors.centerIn: parent
+                Timer{
+                    running: true
+                    repeat: false//true
+                    interval: 200
+                    onTriggered:  {
+                        setCDS()
+                    }
+                }
+
             }
         }
     }
-
+    Rectangle {
+        id: itemSen1
+        layer.enabled: true
+        width: height/4
+        height: 1000
+        border.width: 0
+        border.color: 'red'
+        color: 'white'
+        x:0-(width*8)
+        rotation: 90
+        Rectangle{
+            width: parent.width
+            height: parent.height
+            x: parent.width
+            transform: Scale{ xScale: -1 }
+            border.width: 0
+            border.color: 'red'
+            Row{
+                spacing: itemSen1.height*0.05
+                rotation: 90
+                anchors.centerIn: parent
+                Text{
+                    id: txtSen1
+                    text:'<b>°'+sen.ciDegSen+' '+zm.aSigns[sen.ciSignSen]+'</b>'
+                    font.pixelSize: parent.parent.width*0.2
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+                Image{
+                    width: itemSen1.height*0.1
+                    height: width
+                    //rotation: 90
+                    //source: "imgs/"+sen.ciSignSen+".png"
+                    source: "modules/ZM3D/ZM3DSignCircle/ZM3DSignArc/imgs/"+sen.ciSignSen+".png"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+                Text{
+                    text:'<b>°'+sen.currentDegSen+'</b>'
+                    font.pixelSize: parent.parent.width*0.2
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+        }
+    }
     View3D {
         id: view
         anchors.fill: parent
@@ -203,7 +261,7 @@ ApplicationWindow {
             //rotation.y:90
             Node{
                 //position: Qt.vector3d(0, 0, ((0-zm.d)*2)+2000)
-                position: Qt.vector3d(0, -1500, -600)
+                position: Qt.vector3d(0, -1600, -600)
                 rotation.x: -90
                 PerspectiveCamera {
                     id: cameraGiro
@@ -278,6 +336,14 @@ ApplicationWindow {
             //Behavior on rotation.y{NumberAnimation{duration: 2000}}
             //Behavior on rotation.z{NumberAnimation{duration: 2000}}
         }
+        PerspectiveCamera {
+            id: cameraLeft
+            position: Qt.vector3d(((0-zm.d)*2)-400, 0, 0)
+            rotation.y: 90
+            //Behavior on rotation.x{NumberAnimation{duration: 2000}}
+            //Behavior on rotation.y{NumberAnimation{duration: 2000}}
+            //Behavior on rotation.z{NumberAnimation{duration: 2000}}
+        }
         Model {
             visible: false
             id: centro
@@ -331,36 +397,7 @@ ApplicationWindow {
             }
         }
 
-
-        Node{
-            scale: Qt.vector3d(0.2, 3.0, 3.0)
-            //position.z:-300
-            position.y: -300
-            visible: false
-            Model {
-                source: "#Cube"
-                scale: Qt.vector3d(0.2, 1.0, 1.0)
-                //position.x:-200
-                materials: [
-                    DefaultMaterial {
-                        diffuseColor: 'blue'
-                    }
-                ]
-            }
-            Model {
-                source: "#Cube"
-                scale: Qt.vector3d(1.0, 1.0, 1.0)
-                position.x:50
-                materials: [
-                    DefaultMaterial {
-                        id: mat
-                        diffuseMap: Texture {
-                            sourceItem: itemCartel
-                        }
-                    }
-                ]
-            }
-        }
+        Sen{id: sen}
     }
 
 
@@ -509,41 +546,26 @@ ApplicationWindow {
         sequence: 'Left'
         onActivated: {
             //log.lv('view.cCam.objectName: '+view.cCam.objectName)
-            if(view.camera===cameraGiro){
-                let cr=ncg.gdec
-                cr+=5
-                ncg.gdec=cr
-            }else{
-                if(view.cCam.position.x>-2000){
-                    let cr=view.cCam.rotation.y
-                    cr+=5
-                    view.cCam.rotation.y=cr
-
-                    let cp=view.cCam.position.x
-                    cp-=200
-                    view.cCam.position.x=cp
-                }
-            }
+            rotCam(5, 'l')
         }
     }
     Shortcut{
         sequence: 'Right'
         onActivated: {
-            if(view.camera===cameraGiro){
-                let cr=ncg.gdec
-                cr-=5
-                ncg.gdec=cr
-            }else{
-                if(view.cCam.position.x<2000){
-                    let cr=view.cCam.rotation.y
-                    cr-=5
-                    view.cCam.rotation.y=cr
-
-                    let cp=view.cCam.position.x
-                    cp+=200
-                    view.cCam.position.x=cp
-                }
-            }
+            rotCam(5, 'r')
+        }
+    }
+    Shortcut{
+        sequence: 'Ctrl+Left'
+        onActivated: {
+            //log.lv('view.cCam.objectName: '+view.cCam.objectName)
+            rotCam(1, 'l')
+        }
+    }
+    Shortcut{
+        sequence: 'Ctrl+Right'
+        onActivated: {
+            rotCam(1, 'r')
         }
     }
     Shortcut{
@@ -600,10 +622,25 @@ ApplicationWindow {
             if(view.camera===cameraGiro){
                 view.camera=camera
                 view.cCam=camera
+            }else if(view.camera===camera){
+                view.camera=cameraLeft
+                view.cCam=cameraLeft
             }else{
                 view.camera=cameraGiro
                 view.cCam=cameraGiro
             }
+        }
+    }
+    Shortcut{
+        sequence: '0'
+        onActivated: {
+            zm.cbi=zm.cbi===-1?0:-1
+        }
+    }
+    Shortcut{
+        sequence: '1'
+        onActivated: {
+            zm.cbi=zm.cbi===-1?1:-1
         }
     }
     QtObject{
@@ -638,6 +675,74 @@ ApplicationWindow {
             getRD(url, setZoolData)
         }
 
+    }
+    function rotCam(stepSize, dir){
+        if(dir==='l'){
+            if(view.camera===cameraGiro){
+                let cr=ncg.gdec
+                cr-=stepSize
+                ncg.gdec=cr
+                sen.rot=cr
+            }else{
+                if(view.cCam.position.x<2000){
+                    let cr=view.cCam.rotation.y
+                    cr-=stepSize
+                    view.cCam.rotation.y=cr
+
+                    let cp=view.cCam.position.x
+                    cp+=200
+                    view.cCam.position.x=cp
+                }
+            }
+        }
+        if(dir==='r'){
+            if(view.camera===cameraGiro){
+                let cr=ncg.gdec
+                cr+=stepSize
+                ncg.gdec=cr
+                sen.rot=cr
+            }else{
+                if(view.cCam.position.x>-2000){
+                    let cr=view.cCam.rotation.y
+                    cr+=stepSize
+                    view.cCam.rotation.y=cr
+
+                    let cp=view.cCam.position.x
+                    cp-=200
+                    view.cCam.position.x=cp
+                }
+            }
+        }
+        setCDS()
+    }
+    function setRotCamSen(deg){
+        view.camera=cameraGiro
+        ncg.gdec=deg
+        sen.rot=deg
+        setCDS()
+    }
+    function setCDS(){
+        //let gc=ncg.rotation.z-270+1
+        let gc=ncg.gdec-270
+        if(gc<0){
+            gc=gc+360
+        }
+        if(gc<0){
+            gc=360+gc
+        }
+        let gradoCamaraAPartirDeCasa1=gc
+        let gcRZ=gradoCamaraAPartirDeCasa1+zm.currentSignRot
+        if(gcRZ<0){
+            gcRZ=360-gcRZ
+        }
+        if(gcRZ>=360){
+            gcRZ=360-(gcRZ-360)
+        }
+        if(gcRZ>360){
+            gcRZ=0
+        }
+        gcRZ=parseInt(gcRZ + 1)
+        sen.currentDegSen=gcRZ
     }
 
     function getRD(url, item){//Remote Data

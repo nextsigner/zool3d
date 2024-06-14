@@ -12,6 +12,12 @@ Node{
     property real anchoProfundoBandaSign: 0.15
     property real anchoProfundoLineaHouse: 2.5
 
+    property var aSigns: ['Aries', 'Tauro', 'Géminis', 'Cáncer', 'Leo', 'Virgo', 'Libra', 'Escorpio', 'Sagitario', 'Capricornio', 'Acuario', 'Piscis']
+    property var aSignsLowerStyle: ['aries', 'tauro', 'geminis', 'cancer', 'leo', 'virgo', 'libra', 'escorpio', 'sagitario', 'capricornio', 'acuario', 'piscis']
+    property var aBodies: ['Sol', 'Luna', 'Mercurio', 'Venus', 'Marte', 'Júpiter', 'Saturno', 'Urano', 'Neptuno', 'Plutón', 'N.Norte', 'N.Sur', 'Quirón', 'Selena', 'Lilith', 'Pholus', 'Ceres', 'Pallas', 'Juno', 'Vesta']
+    property var aBodiesFiles: ['sol', 'luna', 'mercurio', 'venus', 'marte', 'jupiter', 'saturno', 'urano', 'neptuno', 'pluton', 'nodo_norte', 'nodo_sur', 'quiron', 'selena', 'lilith', 'pholus', 'ceres', 'pallas', 'juno', 'vesta']
+    property var objSignsNames: ['ari', 'tau', 'gem', 'cnc', 'leo', 'vir', 'lib', 'sco', 'sgr', 'cap', 'aqr', 'psc']
+
     //Current Bodies and Houses Indexs
     property int cbi: -1
     property int chi: -1
@@ -53,5 +59,18 @@ Node{
         let nz=-90-zm.currentSignRot-gdec+90
         if(nz>360.00)nz=360.00-nz
         return nz
+    }
+    function getIndexSign(gdec){
+        let index=0
+        let g=0.0
+        for(var i=0;i<12+5;i++){
+            g = g + 30.00
+            if (g > parseFloat(gdec)){
+                break
+            }
+            index = index + 1
+        }
+        if(index===12)index--
+        return index
     }
 }

@@ -1,1 +1,1 @@
-Se carga mapa mediante parámetro -urlZool
+Se agrega cartel central
