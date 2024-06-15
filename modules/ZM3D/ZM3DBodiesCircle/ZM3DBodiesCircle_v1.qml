@@ -29,6 +29,12 @@ Model {
             property int hi
             property var aIHs: []
             property real gdec: 0.0
+            property bool selected: zm.cbi===bi
+            onSelectedChanged: {
+                if(selected){
+                    app.setRotCamSen(-90-zm.currentSignRot-1+parseInt(xModel.gdec))
+                }
+            }
             Component.onCompleted: {
                 let i=xModel.bi
                 if(i<=19){
@@ -156,24 +162,17 @@ Model {
             property int hi
             property var aSources: ["imgs/sol/basecolor2.jpg", "imgs/sol/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/sol/basecolor1.jpg", "imgs/sol/metallic.jpg"]
             property real s: 1.5
-            property bool selected: zm.cbi===r.ci
+            property bool selected: parent.selected
             //property bool selected: zm.cbi===n.bi
             property int bi: -1
             property int drz: 0 //Distancia de la rueda zodiacal
+            property int alt: 0
             onSelectedChanged: {
-                //app.setRotCamSen(86+zm.currentSignRot+270)
-                //app.setRotCamSen(-90-zm.currentSignRot-1+89)
-                //app.setRotCamSen(-90-zm.currentSignRot-1+n.gdec)
-                //console.log('gdec '+n.bi+': '+n.gdec)
-                //if(selected){
-//                if(selected && n.bi===0){
-//                    //app.setRotCamSen(-90-zm.currentSignRot-1+parseInt(n.gdec))
-//                    app.setRotCamSen(-90-zm.currentSignRot-1+89)
-//                }
-//                if(selected && n.bi===1){
-//                    //app.setRotCamSen(-90-zm.currentSignRot-1+parseInt(n.gdec))
-//                    app.setRotCamSen(-90-zm.currentSignRot-1+0)
-//                }
+                //                if(selected){
+                //                    n.position=Qt.vector3d(0-zm.d+150+80, 0, -50)
+                //                }else{
+                //                    n.position=Qt.vector3d(0-zm.d+150+drz, 0, n.alt)
+                //                }
             }
             Model {
                 source: "#Sphere"
@@ -201,7 +200,7 @@ Model {
                         let nz=zm.getObjZGdec(n.rotation.z)
                         //log.lv('nz:'+nz)
                         ncg.gdec=nz
-                        app.setRotCamSen(-90-zm.currentSignRot-1+parseInt(n.gdec))
+                        //app.setRotCamSen(-90-zm.currentSignRot-1+parseInt(n.gdec))
                     }else{
                         zm.chi=-1
                         zm.cbi=-1
@@ -233,6 +232,58 @@ Model {
                         duration: 30000
                         to: Qt.vector3d(0, 360, 0)
                         from: Qt.vector3d(360, 0, 0)
+                    }
+                }
+            }
+            Node{
+                scale: Qt.vector3d(0.2, n.s*0.5, 0.2)
+                rotation: Qt.vector3d(0, 90, 90)
+                position: Qt.vector3d(0, 0, 0+(100*n.s*0.5))
+                visible: n.selected
+                Model {
+                    id: baseEjeVertical
+                    scale: Qt.vector3d(3.0, 0.2, 3.0)
+                    source: "#Cylinder"
+                    materials: DefaultMaterial{
+                        diffuseColor: 'white'
+                        SequentialAnimation on diffuseColor{
+                            loops: Animation.Infinite
+                            //running: false
+                            PropertyAnimation{
+                                duration: 200
+                                from: 'white'
+                                to: 'red'
+                            }
+                            PropertyAnimation{
+                                duration: 200
+                                from: 'red'
+                                to: 'yellow'
+                            }
+                            PropertyAnimation{
+                                duration: 200
+                                from: 'yellow'
+                                to: 'white'
+                            }
+                        }
+                    }
+                }
+                Model {
+                    id: ejeVertical
+                    source: "#Cylinder"
+                    materials: baseEjeVertical.materials
+                    SequentialAnimation on position {
+                        loops: Animation.Infinite
+                        running: false//true
+                        PropertyAnimation {
+                            duration: 3000
+                            to: Qt.vector3d(0, 0, 0)
+                            from: Qt.vector3d(0, 0, 0-(100*n.s))
+                        }
+                        PropertyAnimation {
+                            duration: 3000
+                            to: Qt.vector3d(0, 0, 0-(100*n.s))
+                            from: Qt.vector3d(0, 0, 0)
+                        }
                     }
                 }
             }
@@ -328,32 +379,25 @@ Model {
             SequentialAnimation on position{
                 running: n.selected
                 PropertyAnimation {
-                    duration: 6000
-                    to: Qt.vector3d(0-zm.d+150, 0, 0)
-                    from: Qt.vector3d(0-zm.d+150, 0, -300)
+                    duration: 500
+                    from: Qt.vector3d(0-zm.d+150+drz, 0, n.alt)
+                    to: Qt.vector3d(0-zm.d+150-140, 0, 0-(100*n.s*1.5))
                 }
             }
-
             Component.onCompleted:{
                 let vh1=n.aIHs[n.bi]
                 let vh2=n.aIHs[n.bi+1]
                 let b=estanA2OMasCasaDeDiferencia(vh1, vh2)
-                let alt=0
                 if(n.tipo==='personal'){
-                    alt=0
+                    n.alt=0
                 }
                 if(n.tipo==='social'){
-                    alt=80
+                    n.alt=80
                 }
                 if(n.tipo==='transpersonal'){
-                    alt=160
+                    n.alt=160
                 }
-                position=Qt.vector3d(0-zm.d+150+drz, 0, alt)
-                /*if((n.bi>=1 && n.bi < 8) && b){
-                    position=Qt.vector3d(0-zm.d+150+drz-r.aD[n.bi-1], 0, 0)
-                }else{
-                    position=Qt.vector3d(0-zm.d+150+drz, 0, alt)
-                }*/
+                position=Qt.vector3d(0-zm.d+150+drz, 0, n.alt)
             }
         }
     }
@@ -457,7 +501,7 @@ Model {
         }
         for(i=0;i<20;i++){
             let obj=compBodie.createObject(nb, {bi: i, hi: aIHs[i], aIHs: aIHs, gdec: aDegs[i]})
-            obj.rotation=Qt.vector3d(0, 0, parseFloat(aDegs[i])-1.5)
+            obj.rotation=Qt.vector3d(0, 0, parseInt(aDegs[i])-1)
         }
     }
     function estanA2OMasCasaDeDiferencia(h1, h2) {

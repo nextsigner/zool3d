@@ -259,6 +259,7 @@ ApplicationWindow {
             property real gdec: -90-zm.currentSignRot
             onGdecChanged: rotation.z=gdec
             //rotation.y:90
+            Behavior on rotation.z{NumberAnimation{duration: 2000}}
             Node{
                 //position: Qt.vector3d(0, 0, ((0-zm.d)*2)+2000)
                 position: Qt.vector3d(0, -1600, -600)

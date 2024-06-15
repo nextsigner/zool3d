@@ -20,6 +20,7 @@ Node{
     Node{
         id: ejeCarteles
         //rotation.z:view.cCam.rotation.y
+        Behavior on rotation.z{NumberAnimation{duration: 2000}}
         Node{
             position.y: -1200
             position.z: 50
