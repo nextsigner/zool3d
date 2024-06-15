@@ -1,1 +1,1 @@
-Se agrega base a bodies
+Se ponen shorcut en la calculadora

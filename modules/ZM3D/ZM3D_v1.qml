@@ -18,13 +18,31 @@ Node{
     property var aBodiesFiles: ['sol', 'luna', 'mercurio', 'venus', 'marte', 'jupiter', 'saturno', 'urano', 'neptuno', 'pluton', 'nodo_norte', 'nodo_sur', 'quiron', 'selena', 'lilith', 'pholus', 'ceres', 'pallas', 'juno', 'vesta']
     property var objSignsNames: ['ari', 'tau', 'gem', 'cnc', 'leo', 'vir', 'lib', 'sco', 'sgr', 'cap', 'aqr', 'psc']
 
+    //Current Json Data
+    property var cJson: {}
+
     //Current Bodies and Houses Indexs
     property int cbi: -1
     property int chi: -1
 
+    property int cbRsgdeg: 0
+    property int cbmdeg: 0
+    property int cbsdeg: 0
+    property int cbis: -1
+    property int cbih: -1
 
     property real currentSignRot: 0
 
+    onCbiChanged: {
+        if(r.cbi<0)return
+        let ic=r.cJson.pc['c'+r.cbi]
+        if(!ic)return
+        r.cbRsgdeg=ic.rsgdeg
+        r.cbmdeg=ic.mdeg
+        r.cbsdeg=ic.sdeg
+        r.cbis=ic.is
+        r.cbih=getIndexHouse(ic.gdec, r.cJson)
+    }
     onChiChanged: {
         //log.lv('zm.chi: '+chi)
     }
@@ -46,6 +64,7 @@ Node{
     }
 
     function loadData(j){
+        r.cJson=j
         //log.lv('j:'+JSON.stringify(j, null, 2))
         //log.lv('Deg Casa 1:'+j.ph.h1.gdec)
         let rot=360-j.ph.h1.gdec
@@ -72,5 +91,24 @@ Node{
         }
         if(index===12)index--
         return index
+    }
+    function getIndexHouse(gdec, json){
+        let index=0
+        let g=0.0
+        for(var i=0;i<12;i++){
+            let iseg=json.ph['h'+parseInt(i+1)].gdec
+            let fseg
+            if(i!==11){
+                fseg=json.ph['h'+parseInt(i+2)].gdec
+            }else{
+                fseg=json.ph['h1'].gdec
+            }
+            if(fseg<iseg)fseg=fseg+360
+            if(gdec>=iseg && gdec<=fseg){
+                index=i
+                break
+            }
+        }
+        return parseInt(index + 1)
     }
 }

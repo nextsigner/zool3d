@@ -12,6 +12,7 @@ Node{
     property int ciDegSen: -1
 
     property int currentDegSen: 0
+    property color cCursorColor: 'white'
     onCurrentDegSenChanged: {
         r.ciSignSen=zm.getIndexSign(currentDegSen)
         let gs=(r.currentDegSen-(r.ciSignSen*30))
@@ -32,26 +33,7 @@ Node{
 
                 materials: [
                     DefaultMaterial {
-                        diffuseColor: 'yellow'
-                        SequentialAnimation on diffuseColor{
-                            loops: Animation.Infinite
-                            //running: false
-                            PropertyAnimation{
-                                duration: 200
-                                from: 'white'
-                                to: 'red'
-                            }
-                            PropertyAnimation{
-                                duration: 200
-                                from: 'red'
-                                to: 'yellow'
-                            }
-                            PropertyAnimation{
-                                duration: 200
-                                from: 'yellow'
-                                to: 'white'
-                            }
-                        }
+                        diffuseColor: rectColorSen.color
                     }
                 ]
 

@@ -21,6 +21,7 @@ ApplicationWindow {
 
 
 
+
     Row {
         anchors.left: parent.left
         anchors.leftMargin: 8
@@ -147,7 +148,7 @@ ApplicationWindow {
             border.color: 'red'
 
             Text{
-                text:'<b>'+zm.aBodies[zm.cbi]+'</b>'
+                text:'<b>'+zm.aBodies[zm.cbi]+' en '+zm.aSigns[zm.cbis]+' en casa '+zm.cbih+'</b><br><b>en el grado °'+zm.cbRsgdeg+' \''+zm.cbmdeg+' \'\''+zm.cbsdeg+'</b>'
                 font.pixelSize: parent.parent.width*0.2
                 rotation: 90
                 //color: 'white'
@@ -546,26 +547,28 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Left'
         onActivated: {
-            //log.lv('view.cCam.objectName: '+view.cCam.objectName)
+            zm.cbi=-1
             rotCam(5, 'l')
         }
     }
     Shortcut{
         sequence: 'Right'
         onActivated: {
+            zm.cbi=-1
             rotCam(5, 'r')
         }
     }
     Shortcut{
         sequence: 'Ctrl+Left'
         onActivated: {
-            //log.lv('view.cCam.objectName: '+view.cCam.objectName)
+            zm.cbi=-1
             rotCam(1, 'l')
         }
     }
     Shortcut{
         sequence: 'Ctrl+Right'
         onActivated: {
+            zm.cbi=-1
             rotCam(1, 'r')
         }
     }
@@ -573,7 +576,12 @@ ApplicationWindow {
         sequence: 'Up'
         onActivated: {
             if(view.camera===cameraGiro){
-                zm.cbi++
+                if(zm.cbi<zm.aBodies.length-1){
+                    zm.cbi++
+                }else{
+                    zm.cbi=0
+                }
+
             }else{
                 if(view.cCam.position.y<2000){
                     let cr=view.cCam.rotation.x
@@ -591,7 +599,11 @@ ApplicationWindow {
         sequence: 'Down'
         onActivated: {
             if(view.camera===cameraGiro){
-                zm.cbi--
+                if(zm.cbi>0){
+                    zm.cbi--
+                }else{
+                    zm.cbi=zm.aBodies.length-1
+                }
             }else{
                 if(view.cCam.position.y>-2000){
                     let cr=view.cCam.rotation.x
@@ -642,6 +654,60 @@ ApplicationWindow {
         sequence: '1'
         onActivated: {
             zm.cbi=zm.cbi===-1?1:-1
+        }
+    }
+    Shortcut{
+        sequence: '2'
+        onActivated: {
+            zm.cbi=zm.cbi===-1?2:-1
+        }
+    }
+    Shortcut{
+        sequence: '3'
+        onActivated: {
+            zm.cbi=zm.cbi===-1?3:-1
+        }
+    }
+    Shortcut{
+        sequence: '4'
+        onActivated: {
+            zm.cbi=zm.cbi===-1?4:-1
+        }
+    }
+    Shortcut{
+        sequence: '5'
+        onActivated: {
+            zm.cbi=zm.cbi===-1?5:-1
+        }
+    }
+    Shortcut{
+        sequence: '6'
+        onActivated: {
+            zm.cbi=zm.cbi===-1?6:-1
+        }
+    }
+    Shortcut{
+        sequence: '7'
+        onActivated: {
+            zm.cbi=zm.cbi===-1?7:-1
+        }
+    }
+    Shortcut{
+        sequence: '8'
+        onActivated: {
+            zm.cbi=zm.cbi===-1?8:-1
+        }
+    }
+    Shortcut{
+        sequence: '9'
+        onActivated: {
+            zm.cbi=zm.cbi===-1?9:-1
+        }
+    }
+    Shortcut{
+        sequence: 'Shift+1'
+        onActivated: {
+            zm.cbi=zm.cbi===-1?10:-1
         }
     }
     QtObject{

@@ -44,7 +44,7 @@ ApplicationWindow{
         }
     }
     Component.onCompleted: {
-        let b='juno'
+        let b='ns'
         let s1='/home/ns/nsp/zool3d/modules/ZM3D/ZM3DBodiesCircle/imgs_v1/'+b+'.svg'
         img.source=s1
         let d1='/home/ns/nsp/zool3d/modules/ZM3D/ZM3DBodiesCircle/imgs_white_trans/'+b+'.png'

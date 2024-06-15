@@ -42,108 +42,131 @@ Model {
                     let aS
                     let objName=''
                     let drz=0
+                    let altBase=100
                     let tipo=''
                     if(i===0){//Sol
                         s=1.5
+                        altBase=0-(100*s*1.5)
                         objName='Sol'
                         tipo='personal'
                         aS=["imgs/sol/basecolor2.jpg", "imgs/sol/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/sol/metallic.jpg"]
                     }else if(i===1){//Luna
                         s=0.8
+                        altBase=0-(100*s*1.8)
                         drz=r.aD[0]
                         objName='Luna'
                         tipo='personal'
                         aS=["imgs/luna/basecolor2.jpg", "imgs/luna/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/luna/basecolor1.jpg", "imgs/luna/metallic.jpg"]
                     }else if(i===2){//Mercurio
                         s=0.6
+                        altBase=0-(100*s*2.5)
                         drz=r.aD[0]+r.aD[1]
                         objName='Mercurio'
                         tipo='personal'
                         aS=["imgs/mercurio/basecolor2.jpg", "imgs/mercurio/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/mercurio/basecolor2.jpg", "imgs/mercurio/metallic.jpg"]
                     }else if(i===3){//Venus
                         s=1.0
+                        altBase=0-(100*s*1.5)
                         drz=r.aD[0]+r.aD[1]+r.aD[2]
                         objName='Venus'
                         tipo='personal'
                         aS=["imgs/venus/basecolor2.jpg", "imgs/venus/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/venus/basecolor1.jpg", "imgs/venus/basecolor2.jpg"]
                     }else if(i===4){//Marte
                         s=0.75
+                        altBase=0-(100*s*2.0)
                         drz=r.aD[0]+r.aD[1]+r.aD[2]+r.aD[3]
                         objName='Marte'
                         tipo='personal'
                         aS=["imgs/marte/basecolor2.jpg", "imgs/marte/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/marte/basecolor2.jpg", "imgs/marte/metallic.jpg"]
                     }else if(i===5){//Jupiter
                         s=1.0
+                        altBase=0-(100*s*1.5)
                         drz=r.aD[4]
                         objName='Jupiter'
                         tipo='social'
                         aS=["imgs/jupiter/basecolor2.jpg", "imgs/jupiter/metallic.jpg", "maps/metallic/roughness.jpg", "imgs/jupiter/basecolor2.jpg", "imgs/jupiter/metallic.jpg"]
                     }else if(i===6){//Saturno
                         s=0.8
+                        altBase=0-(100*s*2.0)
                         drz=r.aD[4]+r.aD[5]
                         objName='Saturno'
                         tipo='social'
                         aS=["imgs/saturno/basecolor1.jpg", "imgs/saturno/basecolor2.jpg", "imgs/saturno/metallic.jpg", "imgs/saturno/basecolor2.jpg", "imgs/saturno/basecolor2.jpg"]
                     }else if(i===7){//Urano
                         s=0.8
+                        altBase=0-(100*s*2.0)
                         drz=r.aD[4]+r.aD[5]+r.aD[6]
                         objName='Urano'
                         tipo='tranpersonal'
                         aS=["imgs/urano/basecolor1.jpg", "imgs/urano/basecolor2.jpg", "imgs/urano/metallic.jpg", "imgs/urano/basecolor2.jpg", "imgs/urano/basecolor2.jpg"]
                     }else if(i===8){//Neptuno
                         s=0.8
+                        altBase=0-(100*s*2.0)
                         drz=r.aD[4]+r.aD[5]+r.aD[6]+r.aD[7]
                         objName='Urano'
                         tipo='tranpersonal'
                         aS=["imgs/neptuno/basecolor1.jpg", "imgs/neptuno/basecolor2.jpg", "imgs/neptuno/metallic.jpg", "imgs/neptuno/basecolor2.jpg", "imgs/neptuno/basecolor2.jpg"]
                     }else if(i===9){//Plutón
                         s=0.6
+                        altBase=0-(100*s*2.5)
                         drz=r.aD[4]+r.aD[5]+r.aD[6]+r.aD[7]+r.aD[8]
                         objName='Plutón'
                         tipo='tranpersonal'
                         aS=["imgs/pluton/basecolor1.jpg", "imgs/pluton/basecolor2.jpg", "imgs/pluton/metallic.jpg", "imgs/pluton/basecolor2.jpg", "imgs/pluton/basecolor2.jpg"]
                     }else if(i===10){//Nodo Norte
-                        let obj=cNodosNS.createObject(xModel, {t: 0, hi: xModel.hi})
+                        drz=50
+                        altBase=0-(100*1.5)
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'nn', bi: xModel.bi, hi: xModel.hi, altBase: altBase})
                         return
                     }else if(i===11){//Nodo Sur
-                        let obj=cNodosNS.createObject(xModel, {t: 1, hi: xModel.hi})
+                        drz=50
+                        altBase=0-(100*1.5)
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'ns', bi: xModel.bi, hi: xModel.hi, altBase: altBase})
                         return
                     }else if(i===12){//Quirón
                         drz=0
-                        let obj=compExtraBodie.createObject(xModel, {drz: drz, hi: xModel.hi})
+                        altBase=0-(100*1.5)
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, bi: xModel.bi, hi: xModel.hi, altBase: altBase})
                         return
                     }else if(i===13){//Selena
                         drz=50
-                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'selena', hi: xModel.hi})
+                        altBase=0-(100*1.5)
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'selena', bi: xModel.bi, hi: xModel.hi, altBase: altBase})
                         return
                     }else if(i===14){//Lilith
                         drz=100
-                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'lilith', hi: xModel.hi})
+                        altBase=0-(100*1.5)
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'lilith', bi: xModel.bi, hi: xModel.hi, altBase: altBase})
                         return
                     }else if(i===15){//Pholus
                         drz=150
-                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'pholus', hi: xModel.hi})
+                        altBase=0-(100*1.5)
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'pholus', bi: xModel.bi, hi: xModel.hi, altBase: altBase})
                         return
                     }else if(i===16){//Ceres
                         drz=200
-                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'ceres', hi: xModel.hi})
+                        altBase=0-(100*1.5)
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'ceres', bi: xModel.bi, hi: xModel.hi, altBase: altBase})
                         return
                     }else if(i===17){//Pallas
                         drz=250
-                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'pallas', hi: xModel.hi})
+                        altBase=0-(100*1.5)
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'pallas', bi: xModel.bi, hi: xModel.hi, altBase: altBase})
                         return
                     }else if(i===18){//Juno
                         drz=300
-                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'juno', hi: xModel.hi})
+                        altBase=0-(100*1.5)
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'juno', bi: xModel.bi, hi: xModel.hi, altBase: altBase})
                         return
                     }else if(i===19){//Vesta
                         drz=350
-                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'vesta', hi: xModel.hi})
+                        altBase=0-(100*1.5)
+                        let obj=compExtraBodie.createObject(xModel, {drz: drz, extraBodie: 'vesta', bi: xModel.bi, hi: xModel.hi, altBase: altBase})
                         return
                     }else{
                         s=0.4
                     }
-                    let obj=c1.createObject(xModel, {tipo: tipo, aIHs: xModel.aIHs, gdec: xModel.gdec, objName: objName, drz: drz, s: s, bi: i, hi: xModel.hi, aSources: aS})
+                    let obj=c1.createObject(xModel, {tipo: tipo, aIHs: xModel.aIHs, gdec: xModel.gdec, objName: objName, drz: drz, s: s, altBase: altBase, bi: i, hi: xModel.hi, aSources: aS})
                 }else{
                     let obj=c2.createObject(xModel, {hi: xModel.hi})
                 }
@@ -167,6 +190,8 @@ Model {
             property int bi: -1
             property int drz: 0 //Distancia de la rueda zodiacal
             property int alt: 0
+            property int hBase: 0
+            property int altBase: 0
             onSelectedChanged: {
                 //                if(selected){
                 //                    n.position=Qt.vector3d(0-zm.d+150+80, 0, -50)
@@ -236,8 +261,10 @@ Model {
                 }
             }
             Node{
-                scale: Qt.vector3d(0.2, n.s*0.5, 0.2)
+                id: rootNodeBase
+                scale: Qt.vector3d(0.2, n.s, 0.2)
                 rotation: Qt.vector3d(0, 90, 90)
+                //position: Qt.vector3d(0, 0, 0+(100*n.s*0.5))
                 position: Qt.vector3d(0, 0, 0+(100*n.s*0.5))
                 visible: n.selected
                 Model {
@@ -245,26 +272,7 @@ Model {
                     scale: Qt.vector3d(3.0, 0.2, 3.0)
                     source: "#Cylinder"
                     materials: DefaultMaterial{
-                        diffuseColor: 'white'
-                        SequentialAnimation on diffuseColor{
-                            loops: Animation.Infinite
-                            //running: false
-                            PropertyAnimation{
-                                duration: 200
-                                from: 'white'
-                                to: 'red'
-                            }
-                            PropertyAnimation{
-                                duration: 200
-                                from: 'red'
-                                to: 'yellow'
-                            }
-                            PropertyAnimation{
-                                duration: 200
-                                from: 'yellow'
-                                to: 'white'
-                            }
-                        }
+                        diffuseColor: rectColorSen.color
                     }
                 }
                 Model {
@@ -369,11 +377,11 @@ Model {
                 }
             }
             SequentialAnimation on position{
-                running: false//!n.selected
+                running: !n.selected
                 PropertyAnimation {
-                    duration: 6000
-                    to: Qt.vector3d(0-zm.d+150, 0, -300)
-                    from: Qt.vector3d(0-zm.d+150, 0, 0)
+                    duration: 500
+                    to: Qt.vector3d(0-zm.d+150+drz, 0, n.alt)
+                    from: Qt.vector3d(0-zm.d+150-140, 0, n.altBase)
                 }
             }
             SequentialAnimation on position{
@@ -381,7 +389,7 @@ Model {
                 PropertyAnimation {
                     duration: 500
                     from: Qt.vector3d(0-zm.d+150+drz, 0, n.alt)
-                    to: Qt.vector3d(0-zm.d+150-140, 0, 0-(100*n.s*1.5))
+                    to: Qt.vector3d(0-zm.d+150-140, 0, n.altBase)
                 }
             }
             Component.onCompleted:{
@@ -403,34 +411,111 @@ Model {
     }
     Component{
         id: compExtraBodie
-        Model {
-            id: m
-            source: "#Cube"
-            scale: Qt.vector3d(0.5, 0.5, 0.5)
-            position: Qt.vector3d(0-zm.d+130+drz, 0, -100)
-            rotation: Qt.vector3d(0, 90, 0)
+        Node{
+            id: n
+            //position: Qt.vector3d(0-zm.d+130+n.drz, 0, -100)
+            //rotation: Qt.vector3d(0, 90, 0)
             property string extraBodie: 'hiron'
+            property int bi: -1
             property int drz: 0
-            materials: [
-                DefaultMaterial {
-                    id: cubeMaterial
-                    diffuseColor: 'white'
-                    diffuseMap: Texture {
-                        source: "/home/ns/nsp/zool3d/modules/ZM3D/ZM3DBodiesCircle/imgs_white_trans/"+m.extraBodie+".png"
-                        scaleU: 1.0
-                        scaleV: 1.0
-                        //positionU: 0.1
-                        //positionV: -0.9
+            property int alt: 0
+            property int hBase: 0
+            property int altBase: 0
+            property real s: 0.5
+            property bool selected: zm.cbi===n.bi
+            Model {
+                id: m
+                source: "#Cube"
+                //scale: Qt.vector3d(0.5, 0.5, 0.5)
+                scale: Qt.vector3d(n.s, n.s, n.s)
+                rotation.z:-90
+                position: Qt.vector3d(0-zm.d+130+n.drz, 0, -100)
+//                rotation: Qt.vector3d(0, 90, 0)
+                materials: [
+                    DefaultMaterial {
+                        id: cubeMaterial
+                        diffuseColor: 'white'
+                        diffuseMap: Texture {
+                            source: "/home/ns/nsp/zool3d/modules/ZM3D/ZM3DBodiesCircle/imgs_white_trans/"+n.extraBodie+".png"
+                            scaleU: 1.0
+                            scaleV: 1.0
+                            //rotationUV: -90
+                            //positionU: 0.1
+                            //positionV: -0.9
+                        }
+                    }
+                ]
+                SequentialAnimation on position{
+                    running: !n.selected
+                    PropertyAnimation {
+                        duration: 500
+                        //to: Qt.vector3d(0-zm.d+150+drz, 0, n.alt)
+                        to: Qt.vector3d(0-zm.d+130+n.drz, 0, -100)
+                        from: Qt.vector3d(0-zm.d+150-140, 0, n.altBase)
                     }
                 }
-            ]
-            SequentialAnimation on rotation {
-                loops: Animation.Infinite
-                running: false//true
-                PropertyAnimation {
-                    duration: 2000
-                    to: Qt.vector3d(0, 0, 0)
-                    from: Qt.vector3d(0, 360, 360)
+                SequentialAnimation on position{
+                    running: n.selected
+                    PropertyAnimation {
+                        duration: 500
+                        //from: Qt.vector3d(0-zm.d+150+drz, 0, n.alt)
+                        from: Qt.vector3d(0-zm.d+130+n.drz, 0, -100)
+                        to: Qt.vector3d(0-zm.d+150-140, 0, n.altBase)
+                    }
+                }
+                Node{
+                    id: rootNodeBase
+                    //scale: Qt.vector3d(3.2, 3.2, 3.2)
+                    scale: Qt.vector3d(0.4, n.s*4, 0.4)
+                    rotation.x:90
+                    position.z:100*n.s+10
+                    visible: n.selected
+                    Model {
+                        id: baseEjeVertical
+                        scale: Qt.vector3d(3.0, 0.1, 3.0)
+                        source: "#Cylinder"
+                        materials: DefaultMaterial{
+                            diffuseColor: 'white'
+                            SequentialAnimation on diffuseColor{
+                                loops: Animation.Infinite
+                                //running: false
+                                PropertyAnimation{
+                                    duration: 200
+                                    from: 'white'
+                                    to: 'red'
+                                }
+                                PropertyAnimation{
+                                    duration: 200
+                                    from: 'red'
+                                    to: 'yellow'
+                                }
+                                PropertyAnimation{
+                                    duration: 200
+                                    from: 'yellow'
+                                    to: 'white'
+                                }
+                            }
+                        }
+                    }
+                    Model {
+                        id: ejeVertical
+                        source: "#Cylinder"
+                        materials: baseEjeVertical.materials
+                        SequentialAnimation on position {
+                            loops: Animation.Infinite
+                            running: false//true
+                            PropertyAnimation {
+                                duration: 3000
+                                to: Qt.vector3d(0, 0, 0)
+                                from: Qt.vector3d(0, 0, 0-(100*n.s))
+                            }
+                            PropertyAnimation {
+                                duration: 3000
+                                to: Qt.vector3d(0, 0, 0-(100*n.s))
+                                from: Qt.vector3d(0, 0, 0)
+                            }
+                        }
+                    }
                 }
             }
         }
