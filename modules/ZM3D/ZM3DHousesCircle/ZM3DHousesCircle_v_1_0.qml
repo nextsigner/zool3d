@@ -34,10 +34,15 @@ Model {
         let aDegs=[]
         for(i=0;i<12;i++){
             aDegs.push(j['h'+parseInt(i + 1)].gdec)
+            if(i===0){
+                zm.cAscDeg=j['h'+parseInt(i + 1)].gdec
+                zm.cAscRsDeg=zm.cAscDeg-(j['h'+parseInt(i + 1)].is*30)
+                zm.cAscIs=j['h'+parseInt(i + 1)].is
+            }
         }
         for(i=0;i<12;i++){
             let obj=compHouse.createObject(xHouses, {deg: i})
-            obj.rotation=Qt.vector3d(0, 0, parseFloat(aDegs[i]))
+            obj.rotation=Qt.vector3d(0, 0, parseFloat(aDegs[i])-2)
             obj.ih=parseInt(i + 1)
         }
     }

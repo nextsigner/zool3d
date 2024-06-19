@@ -22,8 +22,12 @@ Node{
     property var cJson: {}
 
     //Current Bodies and Houses Indexs
-    property int cbi: -1
+    property int cbi: -2
     property int chi: -1
+
+    property int cAscDeg: 0
+    property int cAscRsDeg: 0
+    property int cAscIs: -1
 
     property int cbRsgdeg: 0
     property int cbmdeg: 0
@@ -34,14 +38,17 @@ Node{
     property real currentSignRot: 0
 
     onCbiChanged: {
-        if(r.cbi<0)return
-        let ic=r.cJson.pc['c'+r.cbi]
-        if(!ic)return
-        r.cbRsgdeg=ic.rsgdeg
-        r.cbmdeg=ic.mdeg
-        r.cbsdeg=ic.sdeg
-        r.cbis=ic.is
-        r.cbih=getIndexHouse(ic.gdec, r.cJson)
+        if(r.cbi>=0){
+            let ic=r.cJson.pc['c'+r.cbi]
+            if(!ic)return
+            r.cbRsgdeg=ic.rsgdeg
+            r.cbmdeg=ic.mdeg
+            r.cbsdeg=ic.sdeg
+            r.cbis=ic.is
+            r.cbih=getIndexHouse(ic.gdec, r.cJson)
+        }else{
+            app.setRotCamSen(-90-zm.currentSignRot-1+parseInt(zm.cAscDeg))
+        }
     }
     onChiChanged: {
         //log.lv('zm.chi: '+chi)

@@ -228,7 +228,7 @@ Model {
                         //app.setRotCamSen(-90-zm.currentSignRot-1+parseInt(n.gdec))
                     }else{
                         zm.chi=-1
-                        zm.cbi=-1
+                        zm.cbi=-4
                         camera.visible=true
                         cameraLocal.visible=false
                         view.cCam=camera
@@ -242,7 +242,7 @@ Model {
                         baseColorMap: Texture {source: n.aSources[3]}
                         //Metalizar
                         metalness: 0.1 //De 0.0 a 1.0
-                        metalnessMap: Texture { source: n.aSources[4]}//Metalicidad
+                        metalnessMap: Texture { source: n.aSources[3]}//Metalicidad
                         //Arrugar
                         roughnessMap: Texture { source: "maps/metallic/roughness.jpg" }//Rugosidad
                         roughness: 0.0 //De 0.0 a 1.0
@@ -272,7 +272,7 @@ Model {
                     scale: Qt.vector3d(3.0, 0.2, 3.0)
                     source: "#Cylinder"
                     materials: DefaultMaterial{
-                        diffuseColor: rectColorSen.color
+                        diffuseColor: 'white'
                     }
                 }
                 Model {

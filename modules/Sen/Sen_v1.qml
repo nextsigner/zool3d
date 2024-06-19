@@ -5,6 +5,7 @@ import Cartel 1.0
 
 Node{
     id: r
+    visible: view.camera===cameraGiro
     property alias rot: ejeCarteles.rotation.z
 
 
@@ -14,8 +15,8 @@ Node{
     property int currentDegSen: 0
     property color cCursorColor: 'white'
     onCurrentDegSenChanged: {
-        r.ciSignSen=zm.getIndexSign(currentDegSen)
-        let gs=(r.currentDegSen-(r.ciSignSen*30))
+        r.ciSignSen=zm.getIndexSign(currentDegSen-1)
+        let gs=(r.currentDegSen-(r.ciSignSen*30))//-1
         r.ciDegSen=gs
     }
     Node{
@@ -33,7 +34,7 @@ Node{
 
                 materials: [
                     DefaultMaterial {
-                        diffuseColor: rectColorSen.color
+                        diffuseColor: 'white'
                     }
                 ]
 
@@ -102,7 +103,7 @@ Node{
                 position.x: 160
                 position.y: 0
                 position.z: -250
-                itemTexture: zm.cbi<0?itemSen1:itemBodieSen
+                itemTexture: zm.cbi<-1?itemSen1:(zm.cbi===-1?itemAscSen:itemBodieSen)
             }
 //            Cartel{
 //                id: cartel1

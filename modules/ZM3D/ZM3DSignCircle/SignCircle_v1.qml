@@ -7,7 +7,8 @@ import ZM3D.ZM3DSignCircle.ZM3DSignArc 1.0
 Node {
     id: r
     //rotation.z:100
-    property var colors: ['red', '#FBE103', '#09F4E2', '#0D9FD6', 'red', '#FBE103', '#09F4E2', '#0D9FD6', 'red', '#FBE103', '#09F4E2', '#0D9FD6', 'red', '#FBE103', '#09F4E2', '#0D9FD6']
+    //property var colors: ['red', '#FBE103', '#09F4E2', '#0D9FD6', 'red', '#FBE103', '#09F4E2', '#0D9FD6', 'red', '#FBE103', '#09F4E2', '#0D9FD6', 'red', '#FBE103', '#09F4E2', '#0D9FD6']
+    property var colors: ['red', '#FBE103', '#09F4E2', '#1976D2', 'red', '#FBE103', '#09F4E2', '#1976D2', 'red', '#FBE103', '#09F4E2', '#1976D2', 'red', '#FBE103', '#09F4E2', '#1976D2']
     property int radio: parent.d
     property int diam: radio*2
     property real wAnc: 1.0

@@ -144,11 +144,48 @@ ApplicationWindow {
             height: parent.height
             x: parent.width
             transform: Scale{ xScale: -1 }
-            border.width: 50
+            border.width: 4
             border.color: 'red'
 
             Text{
                 text:'<b>'+zm.aBodies[zm.cbi]+' en '+zm.aSigns[zm.cbis]+' en casa '+zm.cbih+'</b><br><b>en el grado °'+zm.cbRsgdeg+' \''+zm.cbmdeg+' \'\''+zm.cbsdeg+'</b>'
+                font.pixelSize: parent.parent.width*0.2
+                rotation: 90
+                //color: 'white'
+
+                anchors.centerIn: parent
+                Timer{
+                    running: true
+                    repeat: false//true
+                    interval: 200
+                    onTriggered:  {
+                        setCDS()
+                    }
+                }
+
+            }
+        }
+    }
+    Rectangle {
+        id: itemAscSen
+        layer.enabled: true
+        width: height/4
+        height: 1000
+        border.width: 0
+        border.color: 'red'
+        color: 'white'
+        x:0-(width*8)
+        rotation: 90
+        Rectangle{
+            width: parent.width
+            height: parent.height
+            x: parent.width
+            transform: Scale{ xScale: -1 }
+            border.width: 4
+            border.color: 'red'
+
+            Text{
+                text:'<b>Ascendente °'+zm.cAscRsDeg+' de '+zm.aSigns[zm.cAscIs]+'</b>'
                 font.pixelSize: parent.parent.width*0.2
                 rotation: 90
                 //color: 'white'
@@ -526,7 +563,21 @@ ApplicationWindow {
     //            }
     //        }
     //    }
-
+    Timer{
+        id: tAutomatic
+        running: false
+        repeat: true
+        interval: 5000
+        property int ci: -2
+        onTriggered: {
+            if(ci<19){
+                ci++
+            }else{
+                ci=-1
+            }
+            zm.cbi=ci
+        }
+    }
     Shortcut{
         sequence: 'Esc'
         onActivated: {
@@ -547,28 +598,28 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Left'
         onActivated: {
-            zm.cbi=-1
+            zm.cbi=-4
             rotCam(5, 'l')
         }
     }
     Shortcut{
         sequence: 'Right'
         onActivated: {
-            zm.cbi=-1
+            zm.cbi=-4
             rotCam(5, 'r')
         }
     }
     Shortcut{
         sequence: 'Ctrl+Left'
         onActivated: {
-            zm.cbi=-1
+            zm.cbi=-4
             rotCam(1, 'l')
         }
     }
     Shortcut{
         sequence: 'Ctrl+Right'
         onActivated: {
-            zm.cbi=-1
+            zm.cbi=-4
             rotCam(1, 'r')
         }
     }
@@ -579,7 +630,7 @@ ApplicationWindow {
                 if(zm.cbi<zm.aBodies.length-1){
                     zm.cbi++
                 }else{
-                    zm.cbi=0
+                    zm.cbi=-1
                 }
 
             }else{
@@ -599,7 +650,7 @@ ApplicationWindow {
         sequence: 'Down'
         onActivated: {
             if(view.camera===cameraGiro){
-                if(zm.cbi>0){
+                if(zm.cbi>-1){
                     zm.cbi--
                 }else{
                     zm.cbi=zm.aBodies.length-1
@@ -630,6 +681,21 @@ ApplicationWindow {
         }
     }
     Shortcut{
+        sequence: 'a'
+        onActivated: {
+            if(!tAutomatic.running){
+                zm.cbi=-1
+                tAutomatic.running=true
+                tAutomatic.start()
+            }else{
+                tAutomatic.running=false
+                zm.cbi=-4
+            }
+
+        }
+    }
+
+    Shortcut{
         sequence: 'c'
         onActivated: {
             if(view.camera===cameraGiro){
@@ -642,6 +708,13 @@ ApplicationWindow {
                 view.camera=cameraGiro
                 view.cCam=cameraGiro
             }
+        }
+    }
+    Shortcut{
+        sequence: '*'
+        onActivated: {
+            zm.cbi=-1
+            //app.setRotCamSen(-90-zm.currentSignRot-1+parseInt(zm.cAscDeg))
         }
     }
     Shortcut{
